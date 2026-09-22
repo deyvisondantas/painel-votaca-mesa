@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Painel de Votação</title><link rel="stylesheet" href="/painel.css"></head>
+<body><div class="screen">
+<header><div class="institution">CÂMARA MUNICIPAL</div><h1 id="titulo">VOTAÇÃO</h1><h2 id="subtitulo">ELEIÇÃO DA MESA DIRETORA</h2></header>
+<main>
+<section class="results">
+<article class="result c1"><div class="name" id="label1">CHAPA 1</div><div class="number" id="count1">0</div><div class="percent" id="percent1">0%</div></article>
+<article class="result c2"><div class="name" id="label2">CHAPA 2</div><div class="number" id="count2">0</div><div class="percent" id="percent2">0%</div></article>
+<article class="result abst"><div class="name">ABSTENÇÕES</div><div class="number" id="countA">0</div><div class="percent" id="percentA">0%</div></article>
+</section>
+<section class="progress-card"><div class="progress-title"><span>Resultado parcial</span><strong id="registered">0 / 21 votos</strong></div><div class="bar"><div class="bar1" id="bar1"></div><div class="bar2" id="bar2"></div><div class="barA" id="barA"></div></div></section>
+<section class="voters"><div class="voters-title">VEREADORES QUE JÁ VOTARAM</div><div id="voterList" class="voter-list"></div></section>
+</main>
+<footer><span>Votação em andamento</span><span id="updated">Aguardando lançamento dos votos</span></footer>
+</div>
+<script>
+let state;
+function render(){
+ const votos=state.votos||{},c1=Object.values(votos).filter(v=>v==='chapa1').length,c2=Object.values(votos).filter(v=>v==='chapa2').length,ca=Object.values(votos).filter(v=>v==='abstencao').length,total=c1+c2+ca,max=state.vereadores.length;
+ const pct=x=>total?(x/total*100):0;
+ titulo.textContent=state.titulo;subtitulo.textContent=state.subtitulo;label1.textContent=state.chapa1;label2.textContent=state.chapa2;
+ count1.textContent=c1;count2.textContent=c2;countA.textContent=ca;percent1.textContent=pct(c1).toFixed(0)+'%';percent2.textContent=pct(c2).toFixed(0)+'%';percentA.textContent=pct(ca).toFixed(0)+'%';registered.textContent=`${total} / ${max} votos`;
+ bar1.style.width=pct(c1)+'%';bar2.style.width=pct(c2)+'%';barA.style.width=pct(ca)+'%';
+ voterList.innerHTML=state.vereadores.filter(v=>votos[v.gabinete]).map(v=>{let voto=votos[v.gabinete],label=voto==='chapa1'?state.chapa1:voto==='chapa2'?state.chapa2:'Abstenção',cls=voto==='chapa1'?'v1':voto==='chapa2'?'v2':'va';return `<div class="voter"><span><b>Gab. ${v.gabinete}</b> — ${v.nome}</span><strong class="${cls}">${label}</strong></div>`}).join('') || '<div class="empty">Nenhum vereador votou ainda.</div>';
+ if(state.updatedAt)updated.textContent='Última atualização: '+new Date(state.updatedAt).toLocaleTimeString('pt-BR');
+}
+const ws=new WebSocket(`${location.protocol==='https:'?'wss':'ws'}://${location.host}`);ws.onmessage=e=>{let m=JSON.parse(e.data);if(m.type==='state'){state=m.data;render()}};fetch('/api/state').then(r=>r.json()).then(d=>{state=d;render()});
+</script></body></html>

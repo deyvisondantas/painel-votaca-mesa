@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Controle da Votação</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header class="header"><div class="header-inner"><div><h1>Controle da Votação</h1><p>Lançamento manual dos votos dos vereadores</p></div><a href="/painel.html" target="_blank" class="btn" style="background:white;color:#123d68">Abrir Painel Público</a></div></header>
+<main class="container">
+<div class="notice">Os votos lançados aqui aparecem imediatamente no painel público, incluindo a identificação de quem já votou.</div>
+<section class="config"><input id="titulo" placeholder="Título da votação"><input id="subtitulo" placeholder="Subtítulo"><input id="chapa1" placeholder="Nome da Chapa 1"><input id="chapa2" placeholder="Nome da Chapa 2"></section>
+<div class="toolbar"><div><strong>Configuração da votação</strong><div style="color:#697386;font-size:13px">Os nomes das chapas podem ser personalizados.</div></div><div class="toolbar-actions"><button class="btn btn-primary" onclick="salvarConfig()">Salvar configuração</button><button class="btn btn-danger" onclick="resetar()">Nova votação / Zerar votos</button></div></div>
+<section class="cards">
+<div class="card"><div class="metric-label" id="label1">Chapa 1</div><div class="metric" id="count1">0</div></div>
+<div class="card"><div class="metric-label" id="label2">Chapa 2</div><div class="metric" id="count2">0</div></div>
+<div class="card"><div class="metric-label">Abstenções</div><div class="metric" id="countA">0</div></div>
+<div class="card"><div class="metric-label">Votos registrados</div><div class="metric" id="registered">0 / 21</div></div>
+</section>
+<section class="card table-card"><table><thead><tr><th>Gabinete</th><th>Vereador(a)</th><th>Status</th><th>Voto</th><th>Ação</th></tr></thead><tbody id="lista"></tbody></table></section>
+</main>
+<script>
+let state=null;
+async function carregar(){state=await (await fetch('/api/state')).json();render();}
+function render(){
+ const votos=state.votos||{}, c1=Object.values(votos).filter(v=>v==='chapa1').length,c2=Object.values(votos).filter(v=>v==='chapa2').length,ca=Object.values(votos).filter(v=>v==='abstencao').length,total=c1+c2+ca;
+ ['titulo','subtitulo','chapa1','chapa2'].forEach(id=>document.getElementById(id).value=state[id]);
+ document.getElementById('count1').textContent=c1;document.getElementById('count2').textContent=c2;document.getElementById('countA').textContent=ca;document.getElementById('registered').textContent=`${total} / ${state.vereadores.length}`;
+ document.getElementById('label1').textContent=state.chapa1;document.getElementById('label2').textContent=state.chapa2;
+ document.getElementById('lista').innerHTML=state.vereadores.map(v=>{
+  const voto=votos[v.gabinete];let status='<span class="badge badge-wait">Aguardando</span>',txt='—';
+  if(voto==='chapa1'){status='<span class="badge badge-1">Votou</span>';txt=state.chapa1}
+  if(voto==='chapa2'){status='<span class="badge badge-2">Votou</span>';txt=state.chapa2}
+  if(voto==='abstencao'){status='<span class="badge badge-a">Absteve-se</span>';txt='Abstenção'}
+  return `<tr><td><strong>${v.gabinete}</strong></td><td>${v.nome}</td><td>${status}</td><td>${txt}</td><td><div class="actions"><button class="btn btn-chapa1" onclick="votar('${v.gabinete}','chapa1')">${state.chapa1}</button><button class="btn btn-chapa2" onclick="votar('${v.gabinete}','chapa2')">${state.chapa2}</button><button class="btn btn-abst" onclick="votar('${v.gabinete}','abstencao')">Abstenção</button>${voto?`<button class="btn btn-clear" onclick="limpar('${v.gabinete}')">Limpar</button>`:''}</div></td></tr>`;
+ }).join('');
+}
+async function votar(gabinete,voto){const v=state.vereadores.find(x=>x.gabinete===gabinete),nom=voto==='chapa1'?state.chapa1:voto==='chapa2'?state.chapa2:'Abstenção';if(state.votos[gabinete]&&state.votos[gabinete]!==voto&&!confirm(`Alterar o voto de ${v.nome} para ${nom}?`))return;await fetch('/api/voto',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({gabinete,voto})})}
+async function limpar(gabinete){const v=state.vereadores.find(x=>x.gabinete===gabinete);if(!confirm(`Remover o voto de ${v.nome}?`))return;await fetch('/api/voto',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({gabinete,voto:null})})}
+async function salvarConfig(){await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({titulo:titulo.value,subtitulo:subtitulo.value,chapa1:chapa1.value,chapa2:chapa2.value})});alert('Configuração salva.')}
+async function resetar(){if(confirm('ATENÇÃO: todos os votos serão apagados. Deseja iniciar uma nova votação?'))await fetch('/api/reset',{method:'POST'})}
+const ws=new WebSocket(`${location.protocol==='https:'?'wss':'ws'}://${location.host}`);ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.type==='state'){state=m.data;render()}};carregar();
+</script></body></html>
