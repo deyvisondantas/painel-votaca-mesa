@@ -1,129 +1,123 @@
 # 🗳️ Painel de Votação — Câmara Municipal de Parnamirim
 
-Sistema web para **acompanhamento e exibição de votações**, desenvolvido para utilização no ambiente legislativo.
+Sistema web para **gerenciamento e exibição de votações** da Câmara Municipal de Parnamirim.
 
-O painel permite registrar os votos dos vereadores, apresentar o resultado da votação e identificar como cada parlamentar votou.
+O sistema possui duas interfaces: uma tela de **controle**, utilizada pelo operador para registrar e gerenciar os votos, e uma tela de **painel público**, destinada à exibição em TV, telão ou monitor.
+
+As informações são atualizadas em **tempo real** entre as duas telas e os dados são persistidos no servidor.
+
+---
 
 ## ✨ Funcionalidades
 
-* 👥 Listagem dos vereadores
-* 🟢 Voto **Sim**
-* 🔴 Voto **Não**
+* 👥 **21 vereadores cadastrados**
+* 🖥️ Tela de controle para lançamento dos votos
+* 📺 Painel público para TV/telão
+* ⚡ Atualização **em tempo real**
+* 🗳️ Votação entre **Chapa 1**, **Chapa 2** e **Abstenção**
+* 🟢 Voto na **Chapa 1**
+* 🔵 Voto na **Chapa 2**
 * 🟡 **Abstenção**
-* ⚪ Identificação dos vereadores que ainda não votaram
-* 📊 Contagem automática dos votos
-* 👤 Exibição de **quem votou**
-* 📈 Exibição do resultado da votação
-* 🔄 Atualização dinâmica do painel
-* 🖥️ Interface adequada para telas e monitores
-* 📱 Layout responsivo
+* ✏️ Alteração de voto
+* 🧹 Limpeza de voto
+* 🔢 Contagem automática
+* 📊 Percentuais por opção de voto
+* 📈 Gráfico visual dos resultados
+* 🔢 Contador no formato **X / 21**
+* 👤 Identificação dos vereadores que ainda não votaram
+* 📋 Exibição dos vereadores que já votaram
+* 🗳️ Exibição da opção escolhida por cada vereador
+* ⚙️ Configuração do título da votação
+* 🏷️ Configuração dos nomes das chapas
+* 🆕 Botão para iniciar uma nova votação
+* 💾 Persistência dos dados no servidor
 
-## 🏛️ Vereadores
+---
 
-O sistema apresenta os vereadores participantes da votação, sem associação com números ou gabinetes.
+## 🖥️ Interfaces
+
+### 🎛️ Controle
+
+A interface `/controle.html` é utilizada pelo operador responsável pelo gerenciamento da votação.
+
+Por meio dela é possível:
+
+* Registrar o voto de cada vereador;
+* Selecionar **Chapa 1**;
+* Selecionar **Chapa 2**;
+* Registrar **Abstenção**;
+* Alterar um voto já registrado;
+* Limpar um voto;
+* Acompanhar a quantidade de votos;
+* Identificar quem ainda não votou;
+* Configurar o título da votação;
+* Alterar os nomes das chapas;
+* Iniciar uma nova votação.
+
+---
+
+### 📺 Painel público
+
+A interface `/painel.html` foi desenvolvida para exibição em:
+
+* 📺 TVs;
+* 🖥️ Monitores;
+* 🎥 Telões;
+* 🏛️ Sessões legislativas.
+
+O painel apresenta os resultados da votação em tempo real.
+
+Além da contagem dos votos, o painel apresenta uma lista dos **vereadores que já votaram**.
+
+Para cada vereador que já registrou seu voto, são exibidas:
+
+* Nome do vereador;
+* Opção escolhida.
 
 Exemplo:
 
-| Vereador(a)        |
-| ------------------ |
-| Éder Queiroz       |
-| Jonas Godeiro      |
-| Rhalessa de Clênio |
-| Wolney França      |
-| ...                |
+```text
+VEREADORES QUE JÁ VOTARAM
 
-A relação de vereadores pode ser alterada diretamente na configuração do sistema.
-
-## 🗳️ Tipos de voto
-
-Cada parlamentar pode registrar uma das seguintes opções:
-
-* **Sim** — voto favorável
-* **Não** — voto contrário
-* **Abstenção** — não manifesta voto favorável ou contrário
-
-O painel apresenta a quantidade de votos de cada categoria e identifica os respectivos vereadores.
-
-## 🖥️ Interface
-
-O sistema foi pensado para utilização em:
-
-* Computadores
-* Monitores institucionais
-* TVs
-* Painéis de exibição
-* Projetores
-
-A interface prioriza a visualização rápida das informações durante uma sessão legislativa.
-
-## 🛠️ Tecnologias
-
-* HTML5
-* CSS3
-* JavaScript
-
-## 🚀 Executando o projeto
-
-Clone o repositório:
-
-```bash
-git clone https://github.com/SEU-USUARIO/painel-votacao.git
+Gab. 02 — Éder Queiroz — Chapa 1
+Gab. 03 — Jonas Godeiro — Chapa 2
+Gab. 04 — Rhalessa de Clênio — Abstenção
 ```
 
-Entre na pasta:
+Os vereadores que ainda não registraram seus votos **não aparecem na lista de votantes**.
 
-```bash
-cd painel-votacao
-```
+---
 
-Abra o arquivo `index.html` no navegador.
+## 🗳️ Opções de voto
 
-Durante o desenvolvimento, também é possível utilizar o **Live Server** no Visual Studio Code.
+Cada um dos 21 vereadores pode registrar uma das três opções:
 
-## 🌐 GitHub Pages
+### 🟢 Chapa 1
 
-O projeto pode ser publicado gratuitamente utilizando o **GitHub Pages**.
+Voto destinado à Chapa 1.
 
-No repositório:
+### 🔵 Chapa 2
 
-1. Acesse **Settings**
-2. Selecione **Pages**
-3. Em **Build and deployment**, escolha **Deploy from a branch**
-4. Selecione a branch `main`
-5. Escolha a pasta `/root`
-6. Clique em **Save**
+Voto destinado à Chapa 2.
 
-## 📁 Estrutura do projeto
+### 🟡 Abstenção
+
+Registra a abstenção do vereador, sendo contabilizada separadamente das duas chapas.
+
+---
+
+## 📊 Contagem dos votos
+
+O sistema realiza automaticamente a contagem das três opções:
 
 ```text
-painel-votacao/
-│
-├── index.html
-│
-├── css/
-│   └── style.css
-│
-├── js/
-│   └── script.js
-│
-├── assets/
-│   ├── imagens/
-│   └── logos/
-│
-├── .gitignore
-└── README.md
+CHAPA 1       | CHAPA 2       | ABSTENÇÕES
+     10        |      8        |      3
 ```
 
-## 🔒 Observações
+Também são apresentados os respectivos percentuais.
 
-Este projeto é destinado à **visualização e gerenciamento de informações de votação** em ambiente institucional.
+O andamento da votação é acompanhado pelo contador:
 
-Para utilização em produção, recomenda-se implementar autenticação, controle de acesso, registro de alterações e armazenamento seguro dos dados.
-
-## 🏛️ Desenvolvimento
-
-Projeto desenvolvido no âmbito do **Centro de Tecnologia da Informação — CTI** da Câmara Municipal de Parnamirim.
-
-**Câmara Municipal de Parnamirim — RN**
-
-> Tecnologia a serviço do Legislativo.
+```te
+```
