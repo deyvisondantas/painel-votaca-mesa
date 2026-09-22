@@ -1,0 +1,16 @@
+services:
+  painel-votacao:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: painel-votacao-mesa
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      NODE_ENV: production
+      PORT: 3000
