@@ -26,7 +26,6 @@ As informações são atualizadas em **tempo real** entre as duas telas e os dad
 * 🔢 Contador no formato **X / 21**
 * 👤 Identificação dos vereadores que ainda não votaram
 * 📋 Exibição dos vereadores que já votaram
-* 🏛️ Exibição do gabinete do vereador
 * 🗳️ Exibição da opção escolhida por cada vereador
 * ⚙️ Configuração do título da votação
 * 🏷️ Configuração dos nomes das chapas
@@ -72,7 +71,6 @@ Além da contagem dos votos, o painel apresenta uma lista dos **vereadores que j
 Para cada vereador que já registrou seu voto, são exibidos:
 
 * Nome;
-* Gabinete;
 * Opção escolhida.
 
 Exemplo:
@@ -80,9 +78,9 @@ Exemplo:
 ```text
 VEREADORES QUE JÁ VOTARAM
 
-Gab. 02 — Éder Queiroz — Chapa 1
-Gab. 03 — Jonas Godeiro — Chapa 2
-Gab. 04 — Rhalessa de Clênio — Abstenção
+Éder Queiroz — Chapa 1
+Jonas Godeiro — Chapa 2
+Rhalessa de Clênio — Abstenção
 ```
 
 Os vereadores que ainda não registraram seus votos **não aparecem na lista de votantes**.
@@ -167,15 +165,15 @@ A lista é atualizada automaticamente conforme os votos são registrados.
 Cada registro apresenta:
 
 ```text
-Gabinete — Vereador — Voto
+Vereador — Voto
 ```
 
 Exemplo:
 
 ```text
-Gab. 02 — Éder Queiroz — Chapa 1
-Gab. 03 — Jonas Godeiro — Chapa 2
-Gab. 04 — Rhalessa de Clênio — Abstenção
+Éder Queiroz — Chapa 1
+Jonas Godeiro — Chapa 2
+Rhalessa de Clênio — Abstenção
 ```
 
 Caso o vereador ainda não tenha votado, ele não é apresentado nessa lista.
