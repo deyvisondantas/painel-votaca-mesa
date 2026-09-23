@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<title>
+  Sistema de Votação — Câmara Municipal de Parnamirim
+</title>
+
+<link rel="icon"
+      href="/favicon.ico"
+      type="image/x-icon">
+
+<link rel="stylesheet"
+      href="/styles.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+:root{
+
+  --blue:#1769aa;
+  --blue-light:#2f86c9;
+  --blue-dark:#0d4775;
+
+  --blue-soft:#eaf4fc;
+
+  --cyan:#2b9bd6;
+
+  --navy:#172536;
+
+  --text:#263646;
+
+  --muted:#718092;
+
+  --border:#dce6ef;
+}
+
+
+/* =========================
+   BASE
+========================= */
+
+html,
+body{
+  min-height:100%;
+}
+
+body{
+
+  margin:0;
+
+  min-height:100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:var(--text);
+
+  background:
+
+    radial-gradient(
+      circle at 8% 10%,
+      rgba(23,105,170,.11),
+      transparent 28%
+    ),
+
+    radial-gradient(
+      circle at 92% 88%,
+      rgba(43,155,214,.10),
+      transparent 25%
+    ),
+
+    linear-gradient(
+      135deg,
+      #f5f9fd 0%,
+      #edf4f9 52%,
+      #f8fbfd 100%
+    );
+}
+
+
+/* Grade decorativa */
+
+body:before{
+
+  content:"";
+
+  position:fixed;
+
+  inset:0;
+
+  pointer-events:none;
+
+  opacity:.32;
+
+  background-image:
+
+    linear-gradient(
+      rgba(23,37,54,.025) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(23,37,54,.025) 1px,
+      transparent 1px
+    );
+
+  background-size:32px 32px;
+}
+
+
+/* =========================
+   TOPO
+========================= */
+
+.topbar{
+
+  position:relative;
+
+  z-index:2;
+
+  background:
+    rgba(255,255,255,.95);
+
+  border-bottom:
+    1px solid rgba(218,228,237,.95);
+
+  box-shadow:
+    0 2px 18px rgba(24,42,58,.07);
+}
+
+
+.topbar-inner{
+
+  width:
+    min(
+      1180px,
+      calc(100% - 40px)
+    );
+
+  margin:auto;
+
+  min-height:82px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+}
+
+
+/* =========================
+   IDENTIDADE
+========================= */
+
+.identity{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+}
+
+
+.identity img{
+
+  width:54px;
+
+  height:54px;
+
+  object-fit:contain;
+}
+
+
+.identity-title{
+
+  font-size:17px;
+
+  font-weight:800;
+
+  color:var(--navy);
+}
+
+
+.identity-subtitle{
+
+  margin-top:3px;
+
+  font-size:12px;
+
+  color:#7b8794;
+
+  letter-spacing:.03em;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.system-badge{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  padding:8px 12px;
+
+  border-radius:999px;
+
+  background:#edf6fd;
+
+  border:1px solid #d5e8f7;
+
+  color:var(--blue-dark);
+
+  font-size:12px;
+
+  font-weight:700;
+}
+
+
+.status-dot{
+
+  width:7px;
+
+  height:7px;
+
+  border-radius:50%;
+
+  background:#2388c8;
+
+  box-shadow:
+    0 0 0 4px rgba(35,136,200,.10);
+}
+
+
+/* =========================
+   ÁREA PRINCIPAL
+========================= */
+
+.page{
+
+  position:relative;
+
+  z-index:1;
+
+  width:
+    min(
+      1180px,
+      calc(100% - 40px)
+    );
+
+  margin:auto;
+
+  min-height:
+    calc(100vh - 82px);
+
+  display:flex;
+
+  align-items:center;
+
+  padding:
+    54px 0 42px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+
+  width:100%;
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(280px,.9fr)
+    minmax(500px,1.35fr);
+
+  gap:42px;
+
+  align-items:center;
+}
+
+
+.hero-copy{
+
+  padding:
+    12px 8px;
+}
+
+
+/* =========================
+   ETIQUETA
+========================= */
+
+.eyebrow{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:
+    7px 11px;
+
+  border-radius:8px;
+
+  background:
+    rgba(23,105,170,.08);
+
+  border:
+    1px solid rgba(23,105,170,.15);
+
+  color:
+    var(--blue-dark);
+
+  font-size:11px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  letter-spacing:.10em;
+}
+
+
+/* =========================
+   LOGO PRINCIPAL
+========================= */
+
+.hero-logo{
+
+  width:122px;
+
+  height:122px;
+
+  object-fit:contain;
+
+  display:block;
+
+  margin:
+    24px 0 18px;
+
+  filter:
+    drop-shadow(
+      0 12px 18px
+      rgba(23,37,54,.12)
+    );
+}
+
+
+/* =========================
+   TÍTULO
+========================= */
+
+.hero h1{
+
+  margin:0;
+
+  max-width:520px;
+
+  color:var(--navy);
+
+  font-size:
+    clamp(
+      34px,
+      4.5vw,
+      52px
+    );
+
+  line-height:1.05;
+
+  letter-spacing:-.035em;
+}
+
+
+.hero h1 span{
+
+  color:var(--blue);
+}
+
+
+/* =========================
+   DESCRIÇÃO
+========================= */
+
+.hero-description{
+
+  max-width:510px;
+
+  margin:
+    20px 0 0;
+
+  color:var(--muted);
+
+  font-size:16px;
+
+  line-height:1.65;
+}
+
+
+/* =========================
+   NOTA
+========================= */
+
+.hero-note{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-top:25px;
+
+  color:#687786;
+
+  font-size:13px;
+}
+
+
+.hero-note strong{
+
+  color:var(--navy);
+}
+
+
+/* =========================
+   CARD DE ACESSO
+========================= */
+
+.access-card{
+
+  background:
+    rgba(255,255,255,.96);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:24px;
+
+  padding:30px;
+
+  box-shadow:
+    0 20px 55px
+    rgba(24,42,58,.11);
+}
+
+
+/* =========================
+   CABEÇALHO DO CARD
+========================= */
+
+.access-head{
+
+  margin-bottom:22px;
+}
+
+
+.access-head h2{
+
+  margin:
+    0 0 7px;
+
+  color:var(--navy);
+
+  font-size:23px;
+}
+
+
+.access-head p{
+
+  margin:0;
+
+  color:var(--muted);
+
+  font-size:14px;
+}
+
+
+/* =========================
+   OPÇÕES
+========================= */
+
+.options{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:16px;
+}
+
+
+/* =========================
+   BOTÕES / CARDS
+========================= */
+
+.option{
+
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:245px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+
+  text-decoration:none;
+
+  color:inherit;
+
+  border:
+    1px solid #dce6ef;
+
+  border-radius:18px;
+
+  padding:24px;
+
+  background:#fff;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+
+
+/* Barra superior */
+
+.option:before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+
+  left:0;
+
+  right:0;
+
+  height:4px;
+
+  background:
+    var(--blue);
+}
+
+
+.option.public:before{
+
+  background:
+    var(--cyan);
+}
+
+
+/* Hover */
+
+.option:hover{
+
+  transform:
+    translateY(-4px);
+
+  border-color:
+    #b9d2e5;
+
+  box-shadow:
+    0 14px 30px
+    rgba(24,42,58,.12);
+}
+
+
+/* =========================
+   ÍCONE
+========================= */
+
+.option-top{
+
+  display:flex;
+
+  align-items:flex-start;
+
+  justify-content:space-between;
+
+  gap:12px;
+}
+
+
+.option-icon{
+
+  width:54px;
+
+  height:54px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:14px;
+
+  background:
+    #eaf4fc;
+
+  color:
+    var(--blue-dark);
+
+  font-size:26px;
+}
+
+
+.public .option-icon{
+
+  background:
+    #eaf7fc;
+}
+
+
+/* =========================
+   SETA
+========================= */
+
+.arrow{
+
+  color:#9aa6b2;
+
+  font-size:22px;
+
+  transition:
+    transform .2s ease,
+    color .2s ease;
+}
+
+
+.option:hover .arrow{
+
+  transform:
+    translateX(3px);
+
+  color:
+    var(--blue);
+}
+
+
+/* =========================
+   TEXTOS DOS CARDS
+========================= */
+
+.option h3{
+
+  margin:
+    22px 0 8px;
+
+  color:
+    var(--navy);
+
+  font-size:19px;
+}
+
+
+.option p{
+
+  margin:0;
+
+  color:#718092;
+
+  font-size:13px;
+
+  line-height:1.55;
+}
+
+
+/* =========================
+   AÇÃO
+========================= */
+
+.option-action{
+
+  margin-top:20px;
+
+  color:
+    var(--blue-dark);
+
+  font-size:12px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  letter-spacing:.06em;
+}
+
+
+.public .option-action{
+
+  color:
+    #1676a8;
+}
+
+
+/* =========================
+   RODAPÉ
+========================= */
+
+.footer{
+
+  margin-top:22px;
+
+  padding-top:18px;
+
+  border-top:
+    1px solid #edf0f3;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  color:#8a96a2;
+
+  font-size:11px;
+}
+
+
+.footer span:last-child{
+
+  white-space:nowrap;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:900px){
+
+  .hero{
+
+    grid-template-columns:1fr;
+
+    gap:25px;
+
+    max-width:720px;
+
+    margin:auto;
+  }
+
+
+  .hero-copy{
+
+    text-align:center;
+  }
+
+
+  .hero-logo{
+
+    margin:
+      20px auto 16px;
+  }
+
+
+  .hero h1,
+  .hero-description{
+
+    margin-left:auto;
+
+    margin-right:auto;
+  }
+
+
+  .hero-note{
+
+    justify-content:center;
+  }
+
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media(max-width:620px){
+
+  .topbar-inner{
+
+    width:
+      min(
+        calc(100% - 28px),
+        1180px
+      );
+
+    min-height:72px;
+  }
+
+
+  .identity img{
+
+    width:46px;
+
+    height:46px;
+  }
+
+
+  .identity-title{
+
+    font-size:14px;
+  }
+
+
+  .identity-subtitle{
+
+    font-size:10px;
+  }
+
+
+  .system-badge{
+
+    display:none;
+  }
+
+
+  .page{
+
+    width:
+      min(
+        calc(100% - 28px),
+        1180px
+      );
+
+    padding:
+      34px 0 30px;
+  }
+
+
+  .hero h1{
+
+    font-size:35px;
+  }
+
+
+  .hero-description{
+
+    font-size:14px;
+  }
+
+
+  .hero-logo{
+
+    width:92px;
+
+    height:92px;
+  }
+
+
+  .access-card{
+
+    padding:20px;
+
+    border-radius:20px;
+  }
+
+
+  .options{
+
+    grid-template-columns:1fr;
+  }
+
+
+  .option{
+
+    min-height:210px;
+  }
+
+
+  .footer{
+
+    align-items:flex-start;
+
+    flex-direction:column;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     TOPO
+========================= -->
+
+<header class="topbar">
+
+  <div class="topbar-inner">
+
+
+    <div class="identity">
+
+      <img
+        src="/logo.png"
+        alt="Brasão da Câmara Municipal de Parnamirim"
+      >
+
+      <div>
+
+        <div class="identity-title">
+          Câmara Municipal de Parnamirim
+        </div>
+
+        <div class="identity-subtitle">
+          Sistema de Votação
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="system-badge">
+
+      <span class="status-dot"></span>
+
+      Sistema disponível
+
+    </div>
+
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     CONTEÚDO
+========================= -->
+
+<main class="page">
+
+
+  <section class="hero">
+
+
+    <!-- =========================
+         LADO ESQUERDO
+    ========================= -->
+
+    <div class="hero-copy">
+
+
+      <div class="eyebrow">
+
+        Plataforma institucional
+
+      </div>
+
+
+      <img
+        class="hero-logo"
+        src="/logo.png"
+        alt="Brasão da Câmara Municipal de Parnamirim"
+      >
+
+
+      <h1>
+
+        Bem-vindo ao
+
+        <span>
+          Sistema de Votação
+        </span>
+
+      </h1>
+
+
+      <p class="hero-description">
+
+        Acesse as ferramentas de gerenciamento da votação
+        ou abra o painel destinado à exibição pública
+        dos resultados.
+
+      </p>
+
+
+      <div class="hero-note">
+
+        <span>🔒</span>
+
+        <span>
+
+          <strong>
+            Acesso rápido e centralizado
+          </strong>
+
+          às áreas do sistema.
+
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         LADO DIREITO
+    ========================= -->
+
+    <div class="access-card">
+
+
+      <div class="access-head">
+
+        <h2>
+          Escolha uma área
+        </h2>
+
+        <p>
+          Selecione o ambiente que deseja abrir.
+        </p>
+
+      </div>
+
+
+      <div class="options">
+
+
+        <!-- =========================
+             CONTROLE
+        ========================= -->
+
+        <a
+          class="option"
+          href="/controle.html"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <div>
+
+
+            <div class="option-top">
+
+
+              <div class="option-icon">
+                ⚙️
+              </div>
+
+
+              <div class="arrow">
+                →
+              </div>
+
+
+            </div>
+
+
+            <h3>
+              Controle da Votação
+            </h3>
+
+
+            <p>
+
+              Gerencie vereadores, presença, chapas,
+              cargos, lançamento dos votos e acompanhe
+              a votação em tempo real.
+
+            </p>
+
+
+          </div>
+
+
+          <div class="option-action">
+
+            Entrar no controle
+
+          </div>
+
+
+        </a>
+
+
+        <!-- =========================
+             PAINEL PÚBLICO
+        ========================= -->
+
+        <a
+          class="option public"
+          href="/painel.html"
+          target="_blank"
+          rel="noopener"
+        >
+
+          <div>
+
+
+            <div class="option-top">
+
+
+              <div class="option-icon">
+                🖥️
+              </div>
+
+
+              <div class="arrow">
+                ↗
+              </div>
+
+
+            </div>
+
+
+            <h3>
+              Painel Público
+            </h3>
+
+
+            <p>
+
+              Abra o painel para TV, projetor ou tela pública
+              e acompanhe a votação e seus resultados.
+
+            </p>
+
+
+          </div>
+
+
+          <div class="option-action">
+
+            Abrir painel público
+
+          </div>
+
+
+        </a>
+
+
+      </div>
+
+
+      <!-- =========================
+           RODAPÉ DO CARD
+      ========================= -->
+
+      <div class="footer">
+
+        <span>
+          Câmara Municipal de Parnamirim
+        </span>
+
+        <span>
+          Eleição da Mesa Diretora
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+</main>
+
+
+</body>
+
+</html>
