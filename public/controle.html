@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,6 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Controle da Votação</title>
 <link rel="stylesheet" href="/styles.css">
+<style>
+/* Menu lateral direito */
+body{padding-right:0}
+.app-shell{display:block;min-height:calc(100vh - 80px)}
+.main-area{max-width:none;margin:0;padding:0 0 40px 0}
+.right-menu{position:fixed;top:80px;right:0;bottom:0;width:245px;z-index:1000;background:#fff;border-left:1px solid #dfe5ec;box-shadow:-4px 0 18px rgba(0,0,0,.08);padding:20px 14px 18px;overflow-y:auto}
+.right-menu .menu-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#7a8694;padding:0 10px 10px}
+.right-menu button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#394454;text-align:left;padding:12px 13px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:5px}
+.right-menu button:hover{background:#f1f5f9}
+.right-menu button.active{background:#e8f0ff;color:#1d4ed8}
+.right-menu .menu-icon{width:24px;text-align:center;font-size:18px}
+.page-content{margin-right:245px}
+.page-section{scroll-margin-top:20px}
+.page-section.hidden-section{display:none!important}
+@media(max-width:900px){
+  .right-menu{position:sticky;top:0;bottom:auto;width:100%;height:auto;padding:8px;display:flex;align-items:center;gap:6px;overflow-x:auto;border-left:0;border-bottom:1px solid #dfe5ec;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .right-menu .menu-title{display:none}
+  .right-menu button{width:auto;min-width:max-content;margin:0;padding:10px 12px;justify-content:center}
+  .page-content{margin-right:0}
+}
+</style>
+
 </head>
 <body>
 <header class="header">
@@ -18,13 +39,22 @@
 </div>
 </header>
 
+<div class="app-shell">
+<nav class="right-menu" aria-label="Menu do controle">
+  <div class="menu-title">Navegação</div>
+  <button type="button" class="active" data-page-btn="votacao" onclick="mostrarSecao('votacao')"><span class="menu-icon">🏠</span>Votação</button>
+  <button type="button" data-page-btn="vereadores" onclick="mostrarSecao('vereadores')"><span class="menu-icon">👥</span>Vereadores</button>
+  <button type="button" data-page-btn="chapas" onclick="mostrarSecao('chapas')"><span class="menu-icon">🗳️</span>Chapas</button>
+  <button type="button" data-page-btn="configuracao" onclick="mostrarSecao('configuracao')"><span class="menu-icon">⚙️</span>Configuração</button>
+</nav>
+<div class="page-content">
 <main class="container">
-<div id="lockNotice" class="notice hidden"></div>
+<div id="lockNotice" class="notice hidden page-section" data-page="votacao"></div>
 
-<section class="toolbar">
+<section class="toolbar page-section" data-page="votacao">
   <div>
-    <strong>Configuração da votação</strong>
-    <div class="muted">Cadastre de 1 a 4 chapas, informe os 5 cargos de cada chapa e marque os vereadores ausentes antes da votação.</div>
+    <strong>Controle da votação</strong>
+    <div class="muted">Registre os votos dos vereadores presentes e acompanhe o resultado em tempo real.</div>
   </div>
   <div class="toolbar-actions">
     <button class="btn btn-primary" id="saveConfigBtn" onclick="salvarConfig()">Salvar configuração</button>
@@ -33,7 +63,7 @@
   </div>
 </section>
 
-<section class="card config-card">
+<section class="card config-card page-section" data-page="configuracao">
   <div class="section-title">Identificação da votação</div>
   <div class="config-grid">
     <label>Título<input id="titulo" placeholder="Ex.: Eleição da Mesa Diretora"></label>
@@ -41,7 +71,7 @@
   </div>
 </section>
 
-<section class="card config-card">
+<section class="card config-card page-section" data-page="vereadores">
   <div class="section-title">Vereadores</div>
   <div class="hint">Adicione ou remova vereadores conforme a Câmara. Os identificadores permanecem internos e não são exibidos ao usuário.</div>
   <div id="vereadoresCount" class="config-count"></div>
@@ -52,16 +82,16 @@
   </div>
 </section>
 
-<section class="card config-card">
+<section class="card config-card page-section" data-page="chapas">
   <div class="section-title">Chapas</div>
   <div class="hint">Cadastre <strong>de 1 a 4 chapas</strong>. Em cada chapa ativa, informe o nome e selecione um vereador para cada um dos 5 cargos da Mesa Diretora.</div>
   <div id="chapasCount" class="config-count"></div>
   <div id="chapasConfig" class="chapas-grid"></div>
 </section>
 
-<section class="cards" id="resultCards"></section>
+<section class="cards page-section" id="resultCards" data-page="votacao"></section>
 
-<section class="card table-card">
+<section class="card table-card page-section" data-page="votacao">
   <div class="table-header">
     <div><strong>Lançamento dos votos</strong><div class="muted">Os votos aparecem imediatamente no painel público.</div></div>
     <span id="statusFinal" class="badge badge-wait">Votação em andamento</span>
@@ -74,7 +104,7 @@
   </div>
 </section>
 
-<section id="finalPanel" class="card final-card hidden">
+<section id="finalPanel" class="card final-card hidden page-section" data-page="votacao">
   <div>
     <h2>Votação finalizada</h2>
     <p id="finalText">Baixe o relatório PDF e confirme que ele foi salvo.</p>
@@ -86,6 +116,8 @@
   <div id="pdfStatus" class="muted"></div>
 </section>
 </main>
+</div>
+</div>
 
 <div id="finalModal" class="modal hidden">
 <div class="modal-box">
@@ -114,9 +146,20 @@ async function api(url,opt={}){
   return d;
 }
 
+function mostrarSecao(secao){
+  document.querySelectorAll("[data-page]").forEach(el=>{
+    el.classList.toggle("hidden-section", el.dataset.page!==secao);
+  });
+  document.querySelectorAll("[data-page-btn]").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.pageBtn===secao);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 async function carregar(){
   state=await(await fetch("/api/state")).json();
   render();
+  mostrarSecao("votacao");
 }
 
 function render(){
@@ -231,7 +274,7 @@ function alternarChapa(id,checked){
   if(!checked && atuais<=1){
     alert("A votação deve ter no mínimo 1 chapa ativa.");
     renderVereadoresConfig();
-  renderChapasConfig();
+    renderChapasConfig();
     return;
   }
   if(c)c.ativa=checked;
@@ -318,7 +361,7 @@ function renderFinalizacao(){
 function atualizarBloqueios(){
   const locked=state.finalized;
   document.querySelectorAll("input,select,button").forEach(el=>{
-    if(el.id==="pdfLink"||el.closest("#finalPanel"))return;
+    if(el.id==="pdfLink"||el.closest("#finalPanel")||el.closest(".right-menu"))return;
     el.disabled=locked;
   });
   resetBtn.disabled=locked&&!state.pdfSaved;
