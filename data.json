@@ -1,21 +1,60 @@
 {
   "titulo": "VOTAÇÃO",
   "subtitulo": "ELEIÇÃO DA MESA DIRETORA",
-  "chapa1": "Chapa 1",
-  "chapa2": "Chapa 2",
-  "votos": {
-    "10": "chapa2",
-    "11": "abstencao",
-    "12": "chapa2",
-    "13": "chapa2",
-    "02": "chapa1",
-    "03": "chapa2",
-    "04": "abstencao",
-    "05": "chapa2",
-    "06": "chapa2",
-    "09": "chapa2",
-    "08": "abstencao",
-    "07": "chapa2"
-  },
-  "updatedAt": "2026-09-22T15:07:56.242Z"
+  "chapas": [
+    {
+      "id": "chapa1",
+      "nome": "Chapa 1",
+      "ativa": true,
+      "cargos": {
+        "presidente": "",
+        "vice1": "",
+        "vice2": "",
+        "secretario1": "",
+        "secretario2": ""
+      }
+    },
+    {
+      "id": "chapa2",
+      "nome": "Chapa 2",
+      "ativa": true,
+      "cargos": {
+        "presidente": "",
+        "vice1": "",
+        "vice2": "",
+        "secretario1": "",
+        "secretario2": ""
+      }
+    },
+    {
+      "id": "chapa3",
+      "nome": "Chapa 3",
+      "ativa": false,
+      "cargos": {
+        "presidente": "",
+        "vice1": "",
+        "vice2": "",
+        "secretario1": "",
+        "secretario2": ""
+      }
+    },
+    {
+      "id": "chapa4",
+      "nome": "Chapa 4",
+      "ativa": false,
+      "cargos": {
+        "presidente": "",
+        "vice1": "",
+        "vice2": "",
+        "secretario1": "",
+        "secretario2": ""
+      }
+    }
+  ],
+  "votos": {},
+  "updatedAt": null,
+  "finalized": false,
+  "pdfSaved": false,
+  "finalizedAt": null,
+  "ausentes": {}
 }
