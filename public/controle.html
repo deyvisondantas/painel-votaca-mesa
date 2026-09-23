@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -42,9 +43,13 @@
 
 <section class="card config-card">
   <div class="section-title">Vereadores</div>
-  <div class="hint">Os nomes podem ser alterados para reutilizar o sistema em outras Câmaras. O identificador do vereador permanece interno para preservar votos e composição das chapas.</div>
+  <div class="hint">Adicione ou remova vereadores conforme a Câmara. Os identificadores permanecem internos e não são exibidos ao usuário.</div>
+  <div id="vereadoresCount" class="config-count"></div>
   <div id="vereadoresConfig" class="vereadores-config"></div>
-  <div style="margin-top:12px"><button class="btn btn-primary" onclick="salvarVereadores()">Salvar nomes dos vereadores</button></div>
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-secondary" onclick="adicionarVereador()">+ Adicionar vereador</button>
+    <button class="btn btn-primary" onclick="salvarVereadores()">Salvar vereadores</button>
+  </div>
 </section>
 
 <section class="card config-card">
@@ -127,28 +132,81 @@ function render(){
 }
 
 function renderVereadoresConfig(){
+  const total=state.vereadores.length;
+  vereadoresCount.textContent=`${total} vereador(es) cadastrado(s)`;
+  vereadoresCount.className=`config-count ${total>=1?"ok":"error"}`;
+
   vereadoresConfig.innerHTML=state.vereadores.map((v,i)=>`
-    <label class="vereador-edit">
-      <span>${i+1}. <strong>${esc(v.gabinete)}</strong></span>
-      <input id="vereador-${v.gabinete}" value="${esc(v.nome)}" maxlength="120" />
-    </label>`).join("");
+    <div class="vereador-edit" style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="min-width:32px;font-weight:600">${i+1}.</span>
+      <input id="vereador-${esc(v.gabinete)}" value="${esc(v.nome)}" maxlength="120" style="flex:1" />
+      <button class="btn btn-danger" type="button" onclick="removerVereador('${esc(v.gabinete)}')">Remover</button>
+    </div>`).join("");
 }
 
+function adicionarVereador(){
+  if(state.finalized)return;
+
+  const id=`novo-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+  state.vereadores.push({gabinete:id,nome:""});
+  renderVereadoresConfig();
+
+  const input=document.getElementById(`vereador-${id}`);
+  if(input){
+    input.focus();
+    input.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+}
+
+function removerVereador(gabinete){
+  if(state.finalized)return;
+
+  const v=state.vereadores.find(x=>x.gabinete===gabinete);
+  if(!v)return;
+
+  if(state.votos?.[gabinete]!==undefined){
+    return alert(`${v.nome} já possui voto registrado e não pode ser removido desta votação.`);
+  }
+
+  const chapa=state.chapas.find(c=>Object.values(c.cargos||{}).includes(gabinete));
+  if(chapa){
+    return alert(`${v.nome} está na composição da ${chapa.nome}. Remova-o da chapa antes de excluir o vereador.`);
+  }
+
+  if(!confirm(`Remover ${v.nome || "este vereador"} da lista?`))return;
+
+  state.vereadores=state.vereadores.filter(x=>x.gabinete!==gabinete);
+  render();
+}
+
+
 async function salvarVereadores(){
-  if(state.finalized)return alert("A votação já foi finalizada. Inicie uma nova votação para alterar os nomes.");
-  const vereadores=state.vereadores.map(v=>({gabinete:v.gabinete,nome:document.getElementById(`vereador-${v.gabinete}`).value.trim()}));
+  if(state.finalized)return alert("A votação já foi finalizada. Inicie uma nova votação para alterar os vereadores.");
+
+  const vereadores=state.vereadores.map(v=>({
+    gabinete:v.gabinete,
+    nome:document.getElementById(`vereador-${v.gabinete}`)?.value.trim()||""
+  }));
+
+  if(vereadores.length<1)return alert("Cadastre pelo menos 1 vereador.");
   if(vereadores.some(v=>!v.nome))return alert("Informe o nome de todos os vereadores.");
+
   try{
-    state=await api("/api/vereadores",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({vereadores})});
-    alert("Nomes dos vereadores atualizados.");
+    state=await api("/api/vereadores",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({vereadores})
+    });
+    alert("Lista de vereadores atualizada.");
     render();
   }catch(e){alert(e.message);}
 }
 
+
 function renderChapasConfig(){
   const ativos=state.chapas.filter(c=>c.ativa).length;
   chapasCount.textContent=`${ativos} chapa(s) ativa(s) — permitido: 1 a 4`;
-  chapasCount.className=`config-count ${ativos>=2?"ok":"error"}`;
+  chapasCount.className=`config-count ${ativos>=1?"ok":"error"}`;
   chapasConfig.innerHTML=state.chapas.map((c,idx)=>`
   <article class="chapa-config ${c.ativa?"active":"inactive"}">
     <div class="chapa-head">
