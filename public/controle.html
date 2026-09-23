@@ -23,7 +23,7 @@
 <section class="toolbar">
   <div>
     <strong>Configuração da votação</strong>
-    <div class="muted">Cadastre de 2 a 4 chapas, informe os 5 cargos de cada chapa e marque os vereadores ausentes antes da votação.</div>
+    <div class="muted">Cadastre de 1 a 4 chapas, informe os 5 cargos de cada chapa e marque os vereadores ausentes antes da votação.</div>
   </div>
   <div class="toolbar-actions">
     <button class="btn btn-primary" id="saveConfigBtn" onclick="salvarConfig()">Salvar configuração</button>
@@ -49,7 +49,7 @@
 
 <section class="card config-card">
   <div class="section-title">Chapas</div>
-  <div class="hint">Cadastre <strong>de 2 a 4 chapas</strong>. Em cada chapa ativa, informe o nome e selecione um vereador para cada um dos 5 cargos da Mesa Diretora.</div>
+  <div class="hint">Cadastre <strong>de 1 a 4 chapas</strong>. Em cada chapa ativa, informe o nome e selecione um vereador para cada um dos 5 cargos da Mesa Diretora.</div>
   <div id="chapasCount" class="config-count"></div>
   <div id="chapasConfig" class="chapas-grid"></div>
 </section>
@@ -147,7 +147,7 @@ async function salvarVereadores(){
 
 function renderChapasConfig(){
   const ativos=state.chapas.filter(c=>c.ativa).length;
-  chapasCount.textContent=`${ativos} chapa(s) ativa(s) — permitido: 2 a 4`;
+  chapasCount.textContent=`${ativos} chapa(s) ativa(s) — permitido: 1 a 4`;
   chapasCount.className=`config-count ${ativos>=2?"ok":"error"}`;
   chapasConfig.innerHTML=state.chapas.map((c,idx)=>`
   <article class="chapa-config ${c.ativa?"active":"inactive"}">
@@ -170,8 +170,8 @@ function renderChapasConfig(){
 function alternarChapa(id,checked){
   const c=state.chapas.find(x=>x.id===id);
   const atuais=state.chapas.filter(x=>x.ativa).length;
-  if(!checked && atuais<=2){
-    alert("A votação deve ter no mínimo 2 chapas ativas.");
+  if(!checked && atuais<=1){
+    alert("A votação deve ter no mínimo 1 chapa ativa.");
     renderVereadoresConfig();
   renderChapasConfig();
     return;
@@ -192,7 +192,7 @@ function coletarChapas(){
 async function salvarConfig(){
   const chapas=coletarChapas();
   const ativas=chapas.filter(c=>c.ativa);
-  if(ativas.length<2 || ativas.length>4)return alert("Cadastre de 2 a 4 chapas ativas.");
+  if(ativas.length<1 || ativas.length>4)return alert("Cadastre de 1 a 4 chapas ativas.");
 
   for(const chapa of ativas){
     const faltantes=CARGOS.filter(([key])=>!chapa.cargos[key]).map(([,label])=>label);

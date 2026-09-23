@@ -89,7 +89,7 @@ function normalizeState(raw) {
         id: fallback.id,
         nome: typeof incoming.nome === "string" && incoming.nome.trim()
           ? incoming.nome.trim() : fallback.nome,
-        ativa: index < 2 ? true : Boolean(incoming.ativa),
+        ativa: Boolean(incoming.ativa),
         cargos: {...fallback.cargos, ...(incoming.cargos || {})}
       };
     }),
@@ -317,15 +317,15 @@ app.post("/api/config", (req,res) => {
         id,
         nome: typeof incoming.nome === "string" && incoming.nome.trim()
           ? incoming.nome.trim() : `Chapa ${index+1}`,
-        ativa: index < 2 ? true : Boolean(incoming.ativa),
+        ativa: Boolean(incoming.ativa),
         cargos
       };
     });
   }
 
   const ativas = state.chapas.filter(c=>c.ativa);
-  if (ativas.length < 2 || ativas.length > 4)
-    return res.status(400).json({error:"É necessário cadastrar de 2 a 4 chapas ativas."});
+  if (ativas.length < 1 || ativas.length > 4)
+    return res.status(400).json({error:"É necessário cadastrar de 1 a 4 chapas ativas."});
 
   for (const chapa of ativas) {
     const cargos = CARGOS.map(([key, label]) => [key, chapa.cargos?.[key], label]);
