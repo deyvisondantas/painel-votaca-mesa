@@ -12,34 +12,53 @@ const LOGO_FILE = path.join(__dirname, "public", "logo.png");
 // Identificadores internos.
 // NÃO representam números de gabinete e não são exibidos ao usuário.
 const VEREADORES_PADRAO = [
-  ["vereador01","Éder Queiroz"],["vereador02","Jonas Godeiro"],["vereador03","Rhalessa de Clênio"],
-  ["vereador04","Wolney França"],["vereador05","Gabriel César"],["vereador06","Binho de Ambrósio"],
-  ["vereador07","Thiago Fernandes"],["vereador08","Léo Lima"],["vereador09","Michael Diniz"],
-  ["vereador10","Irani Guedes"],["vereador11","Chicão"],["vereador12","Carol Pires"],
-  ["vereador13","Michael Borges"],["vereador14","Professor Ítalo"],["vereador15","Rafaela de Nilda"],
-  ["vereador16","Professor Diego"],["vereador17","Rodrigo Cruz"],["vereador18","César Maia"],
-  ["vereador19","Rárika Bastos"],["vereador20","Afrânio Bezerra"],["vereador21","Eurico da Japão"]
-].map(([gabinete, nome]) => ({ gabinete, nome }))
+  ["vereador01","Éder Queiroz","/vereadores/eder_queiroz.jpg"],
+  ["vereador02","Jonas Godeiro","/vereadores/jonas_godeiro.jpg"],
+  ["vereador03","Rhalessa de Clênio","/vereadores/rhalessa_de_clenio.jpg"],
+  ["vereador04","Wolney França","/vereadores/wolney_franca.jpg"],
+  ["vereador05","Gabriel César","/vereadores/gabriel_cesar.jpg"],
+  ["vereador06","Binho de Ambrósio","/vereadores/binho_de_ambrosio.jpg"],
+  ["vereador07","Thiago Fernandes","/vereadores/thiago_fernandes.jpg"],
+  ["vereador08","Léo Lima","/vereadores/leo_lima.jpg"],
+  ["vereador09","Michael Diniz","/vereadores/michael_diniz.jpg"],
+  ["vereador10","Irani Guedes","/vereadores/irani_guedes.jpg"],
+  ["vereador11","Chicão","/vereadores/chicao.jpg"],
+  ["vereador12","Carol Pires","/vereadores/carol_pires.jpg"],
+  ["vereador13","Michael Borges","/vereadores/michael_borges.jpg"],
+  ["vereador14","Professor Ítalo","/vereadores/professor_italo.jpg"],
+  ["vereador15","Rafaela de Nilda","/vereadores/rafaela_de_nilda.jpg"],
+  ["vereador16","Professor Diego Américo","/vereadores/professor_diego_americo.jpg"],
+  ["vereador17","Rodrigo Cruz","/vereadores/rodrigo_cruz.jpg"],
+  ["vereador18","Dr. César Maia","/vereadores/dr_cesar_maia.jpg"],
+  ["vereador19","Rárika Bastos","/vereadores/rarika_bastos.jpg"],
+  ["vereador20","Afrânio Bezerra","/vereadores/afranio_bezerra.jpg"],
+  ["vereador21","Eurico da Japão","/vereadores/eurico_da_japao.jpg"]
+].map(([gabinete, nome, foto]) => ({ gabinete, nome, foto }))
  .sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
 
+function normalizarFoto(foto) {
+  const valor = String(foto || "").trim();
+  if (/^\/vereadores\/[A-Za-z0-9._-]+$/.test(valor)) return valor;
+  return "/vereadores/sem-foto.png";
+}
+
 function normalizeVereadores(raw) {
-  const entrada = Array.isArray(raw) ? raw : VEREADORES_PADRAO;
+  const entrada = Array.isArray(raw) && raw.length ? raw : VEREADORES_PADRAO;
   const usados = new Set();
 
   const lista = entrada.map(v => {
     const gabinete = String(v?.gabinete || "").trim();
     const nome = String(v?.nome || "").trim();
+    const padrao = VEREADORES_PADRAO.find(x => x.gabinete === gabinete);
+    const foto = normalizarFoto(v?.foto || padrao?.foto);
 
     if (!gabinete || !nome || usados.has(gabinete)) return null;
 
     usados.add(gabinete);
-
-    return { gabinete, nome };
+    return { gabinete, nome, foto };
   }).filter(Boolean);
 
-  return lista.sort(
-    (a,b) => a.nome.localeCompare(b.nome, "pt-BR")
-  );
+  return lista.sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }
 
 
@@ -93,9 +112,9 @@ function normalizeState(raw) {
   const normalized = {
     ...base,
 
-    vereadores: normalizeVereadores(raw.vereadores),
-
     ...raw,
+
+    vereadores: normalizeVereadores(raw.vereadores),
 
     chapas: base.chapas.map((fallback, index) => {
       const incoming =
@@ -419,6 +438,63 @@ app.post("/api/ausente", (req,res) => {
   res.json(publicState());
 });
 
+app.post("/api/vereador-foto/:gabinete", express.raw({
+  type: ["image/jpeg", "image/png", "image/webp"],
+  limit: "5mb"
+}), (req,res) => {
+  if (state.finalized) {
+    return res.status(409).json({ error:"A votação atual já foi finalizada." });
+  }
+
+  const gabinete = String(req.params.gabinete || "").trim();
+  const vereador = listaVereadores().find(v => v.gabinete === gabinete);
+
+  if (!vereador) {
+    return res.status(404).json({ error:"Vereador não encontrado." });
+  }
+
+  if (!Buffer.isBuffer(req.body) || !req.body.length) {
+    return res.status(400).json({ error:"Nenhuma imagem foi enviada." });
+  }
+
+  const dir = path.join(__dirname, "public", "vereadores");
+  fs.mkdirSync(dir, { recursive:true });
+
+  const destino = path.join(dir, `${gabinete}.jpg`);
+  fs.writeFileSync(destino, req.body);
+
+  vereador.foto = `/vereadores/${gabinete}.jpg`;
+  state.updatedAt = new Date().toISOString();
+  saveState();
+  broadcast();
+
+  res.json(publicState());
+});
+
+app.delete("/api/vereador-foto/:gabinete", (req,res) => {
+  if (state.finalized) {
+    return res.status(409).json({ error:"A votação atual já foi finalizada." });
+  }
+
+  const gabinete = String(req.params.gabinete || "").trim();
+  const vereador = listaVereadores().find(v => v.gabinete === gabinete);
+
+  if (!vereador) {
+    return res.status(404).json({ error:"Vereador não encontrado." });
+  }
+
+  const destino = path.join(__dirname, "public", "vereadores", `${gabinete}.jpg`);
+  if (fs.existsSync(destino)) fs.unlinkSync(destino);
+
+  const padrao = VEREADORES_PADRAO.find(v => v.gabinete === gabinete);
+  vereador.foto = normalizarFoto(padrao?.foto);
+  state.updatedAt = new Date().toISOString();
+  saveState();
+  broadcast();
+
+  res.json(publicState());
+});
+
 app.post("/api/vereadores", (req,res) => {
   if (state.finalized) {
     return res.status(409).json({
@@ -440,7 +516,8 @@ app.post("/api/vereadores", (req,res) => {
 
   const novos = req.body.vereadores.map(v => ({
     gabinete: String(v?.gabinete || "").trim() || novoIdVereador(),
-    nome: String(v?.nome || "").trim()
+    nome: String(v?.nome || "").trim(),
+    foto: normalizarFoto(v?.foto)
   }));
 
   if (novos.some(v => !v.nome)) {
@@ -721,7 +798,8 @@ app.post("/api/reset", (req,res) => {
   // O reset zera somente a votação: votos, ausências e resultado.
   const vereadoresAtuais = listaVereadores().map(v => ({
     gabinete: v.gabinete,
-    nome: v.nome
+    nome: v.nome,
+    foto: v.foto
   }));
 
   const chapasAtuais = Array.isArray(state.chapas)

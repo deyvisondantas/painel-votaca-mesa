@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -327,18 +328,26 @@ function renderFinalResult(ativos, resultado){
                 ${label}
               </span>
 
-              <strong>
-                ${
-                  esc(
-                    state.vereadores.find(
-                      v =>
-                        v.gabinete ===
-                        chapa.cargos?.[key]
-                    )?.nome ||
-                    "Não informado"
-                  )
-                }
-              </strong>
+              <div class="winner-person">
+                <img
+                  class="winner-photo"
+                  src="${esc(state.vereadores.find(v => v.gabinete === chapa.cargos?.[key])?.foto || '/vereadores/sem-foto.png')}"
+                  alt=""
+                  onerror="this.onerror=null;this.src='/vereadores/sem-foto.png';"
+                >
+                <strong>
+                  ${
+                    esc(
+                      state.vereadores.find(
+                        v =>
+                          v.gabinete ===
+                          chapa.cargos?.[key]
+                      )?.nome ||
+                      "Não informado"
+                    )
+                  }
+                </strong>
+              </div>
 
             </div>
 

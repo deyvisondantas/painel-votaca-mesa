@@ -118,6 +118,80 @@ body{padding-right:0}
     width:100%
   }
 }
+
+
+/* Cadastro de fotos dos vereadores */
+.vereador-edit{
+  display:flex!important;
+  align-items:center;
+  gap:14px;
+  margin-bottom:10px;
+  padding:12px!important;
+}
+.vereador-photo-box{
+  width:110px;
+  flex:0 0 110px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+}
+.vereador-photo-preview{
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #d7e1eb;
+  background:#eef2f6;
+}
+.vereador-photo-btn{
+  position:relative;
+  overflow:hidden;
+  padding:7px 9px!important;
+  font-size:11px;
+  text-align:center;
+}
+.vereador-photo-btn input{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  cursor:pointer;
+}
+.vereador-remove-photo{
+  padding:6px 8px!important;
+  font-size:10px;
+}
+.vereador-fields{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+  min-width:0;
+}
+.vereador-index{
+  min-width:28px;
+  font-weight:800;
+  color:var(--muted);
+}
+.vereador-fields input{
+  flex:1;
+  min-width:0;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  background:#fff;
+  color:#152238;
+  font:inherit;
+}
+.vereador-actions{
+  flex-shrink:0;
+}
+@media(max-width:700px){
+  .vereador-edit{flex-direction:column;align-items:stretch!important}
+  .vereador-photo-box{width:100%;flex-basis:auto}
+  .vereador-fields{width:100%}
+  .vereador-actions .btn{width:100%}
+}
 </style>
 </head>
 
@@ -507,26 +581,50 @@ function renderVereadoresConfig(){
   vereadoresConfig.innerHTML=
     state.vereadores.map((v,i)=>`
 
-      <div class="vereador-edit"
-           style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div class="vereador-edit">
 
-        <span style="min-width:32px;font-weight:600">
-          ${i+1}.
-        </span>
+        <div class="vereador-photo-box">
+          <img
+            src="${esc(v.foto || '/vereadores/sem-foto.png')}"
+            alt="Foto de ${esc(v.nome || 'vereador')}"
+            class="vereador-photo-preview"
+            onerror="this.src='/vereadores/sem-foto.png'"
+          >
+          <label class="btn btn-secondary vereador-photo-btn">
+            📷 Alterar foto
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onchange="selecionarFoto('${esc(v.gabinete)}', this.files[0])"
+            >
+          </label>
+          ${v.foto && v.foto !== '/vereadores/sem-foto.png' ? `
+            <button
+              class="btn btn-clear vereador-remove-photo"
+              type="button"
+              onclick="removerFoto('${esc(v.gabinete)}')">
+              Remover foto
+            </button>
+          ` : ''}
+        </div>
 
-        <input
-          id="vereador-${esc(v.gabinete)}"
-          value="${esc(v.nome)}"
-          maxlength="120"
-          style="flex:1"
-        />
-
-        <button
-          class="btn btn-danger"
-          type="button"
-          onclick="removerVereador('${esc(v.gabinete)}')">
-          Remover
-        </button>
+        <div class="vereador-fields">
+          <span class="vereador-index">${i+1}.</span>
+          <input
+            id="vereador-${esc(v.gabinete)}"
+            value="${esc(v.nome)}"
+            maxlength="120"
+            placeholder="Nome do vereador"
+          />
+          <div class="vereador-actions">
+            <button
+              class="btn btn-danger"
+              type="button"
+              onclick="removerVereador('${esc(v.gabinete)}')">
+              Remover vereador
+            </button>
+          </div>
+        </div>
 
       </div>
 
@@ -543,7 +641,8 @@ function adicionarVereador(){
 
   state.vereadores.push({
     gabinete:id,
-    nome:""
+    nome:"",
+    foto:"/vereadores/sem-foto.png"
   });
 
   renderVereadoresConfig();
@@ -563,6 +662,83 @@ function adicionarVereador(){
   }
 }
 
+
+async function selecionarFoto(gabinete, arquivo){
+
+  if(!arquivo || state.finalized)return;
+
+  if(!arquivo.type.startsWith("image/")){
+    return alert("Selecione uma imagem JPG, PNG ou WebP.");
+  }
+
+  try{
+    const blob = await prepararFoto(arquivo);
+
+    const resposta = await fetch(`/api/vereador-foto/${encodeURIComponent(gabinete)}`, {
+      method:"POST",
+      headers:{"Content-Type":"image/jpeg"},
+      body:blob
+    });
+
+    const data = await resposta.json();
+
+    if(!resposta.ok) throw new Error(data.error || "Não foi possível salvar a foto.");
+
+    state=data;
+    render();
+  }catch(e){
+    alert(e.message);
+    render();
+  }
+}
+
+function prepararFoto(arquivo){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+
+    reader.onload=()=>{
+      const img=new Image();
+
+      img.onload=()=>{
+        const max=700;
+        const escala=Math.min(1,max/Math.max(img.width,img.height));
+        const canvas=document.createElement("canvas");
+        canvas.width=Math.max(1,Math.round(img.width*escala));
+        canvas.height=Math.max(1,Math.round(img.height*escala));
+
+        const ctx=canvas.getContext("2d");
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+        canvas.toBlob(blob=>{
+          if(blob) resolve(blob);
+          else reject(new Error("Não foi possível preparar a imagem."));
+        },"image/jpeg",.88);
+      };
+
+      img.onerror=()=>reject(new Error("Não foi possível ler a imagem."));
+      img.src=reader.result;
+    };
+
+    reader.onerror=()=>reject(new Error("Não foi possível ler o arquivo."));
+    reader.readAsDataURL(arquivo);
+  });
+}
+
+async function removerFoto(gabinete){
+
+  if(state.finalized)return;
+  if(!confirm("Remover a foto deste vereador?"))return;
+
+  try{
+    const data=await api(`/api/vereador-foto/${encodeURIComponent(gabinete)}`,{
+      method:"DELETE"
+    });
+    state=data;
+    render();
+  }catch(e){
+    alert(e.message);
+  }
+}
 
 function removerVereador(gabinete){
 
@@ -624,7 +800,9 @@ async function salvarVereadores(){
         document
         .getElementById(`vereador-${v.gabinete}`)
         ?.value
-        .trim()||""
+        .trim()||"",
+
+      foto:v.foto || "/vereadores/sem-foto.png"
 
     }));
 
