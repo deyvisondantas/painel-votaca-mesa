@@ -821,7 +821,7 @@ footer{
   }
 
   .institution{
-    font-size:30px;
+    font-size:34px;
   }
 
   .small-status{
@@ -842,7 +842,7 @@ footer{
   }
 
   main{
-    margin-top:22px;
+    margin-top:25px;
   }
 
 
@@ -854,24 +854,26 @@ footer{
     gap:28px;
   }
 
-  /* PLACAR — menor para liberar espaço */
   .result{
-    min-height:150px;
-    padding:12px 22px;
-    border-radius:18px;
+    min-height:285px;
+
+    padding:25px;
   }
 
   .result .name{
-    font-size:32px;
+    font-size:38px;
   }
 
   .result .number{
-    font-size:72px;
-    margin:2px 0;
+    font-size:125px;
+
+    margin:
+      12px
+      0;
   }
 
   .result .percent{
-    font-size:18px;
+    font-size:25px;
   }
 
 
@@ -906,7 +908,7 @@ footer{
   }
 
   .legend-item{
-    font-size:23px;
+    font-size:26px;
   }
 
   .legend-dot{
@@ -919,77 +921,98 @@ footer{
      COMPOSIÇÃO MAIS COMPACTA
      ----------------------------------------------- */
 
-  /* =================================================
-     CHAPAS — BEM MAIORES NO TELÃO
-     ================================================= */
-
   .composition-wrap{
-    margin-top:20px;
+    margin-top:18px;
   }
 
   .section-title{
-    font-size:44px;
-    margin-bottom:16px;
+    font-size:23px;
+
+    margin-bottom:10px;
   }
 
   .composition{
-    gap:34px;
-    justify-content:center;
+    gap:18px;
   }
 
   .composition-card{
-    flex:1 1 0;
-    max-width:1850px;
-    min-height:300px;
-    padding:30px 42px;
-    border-radius:20px;
+    padding:14px 20px;
+
+    border-radius:14px;
   }
 
   .composition-card h3{
-    font-size:52px;
-    margin-bottom:14px;
+    font-size:25px;
+
+    margin-bottom:7px;
   }
 
   .cargo{
-    padding:11px 0;
-    font-size:36px;
-    line-height:1.15;
+    padding:5px 0;
+
+    font-size:26px;
   }
 
   .cargo strong{
-    font-size:40px;
+    font-size:22px;
   }
 
 
-  /* =================================================
-     VEREADORES — TAMANHO DE LEITURA PARA O TELÃO
-     ================================================= */
+  /* -----------------------------------------------
+     VEREADORES — MAIOR E MAIS VISÍVEL
+     ----------------------------------------------- */
 
   .voters{
-    margin-top:28px;
+    margin-top:20px;
   }
 
   .voters-title{
-    font-size:48px;
-    margin-bottom:16px;
+    font-size:30px;
+
+    margin-bottom:10px;
   }
 
   .voter-list{
-    max-height:34vh;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:16px 24px;
+
+    /*
+      Mais altura para os vereadores.
+    */
+
+    max-height:27vh;
+
+    /*
+      Mais colunas para evitar que
+      a lista fique comprida demais.
+    */
+
+    grid-template-columns:
+      repeat(
+        auto-fit,
+        minmax(500px,1fr)
+      );
+
+    gap:10px;
   }
 
   .voter{
-    min-height:94px;
-    padding:16px 24px;
-    font-size:50px;
-    line-height:1.1;
-    border-radius:13px;
+
+    /*
+      Nome dos vereadores maior.
+    */
+
+    min-height:58px;
+
+    padding:
+      10px
+      18px;
+
+    font-size:26px;
+
+    border-radius:10px;
   }
 
   .voter strong{
-    font-size:50px;
+    font-size:26px;
   }
 
 
@@ -1176,4 +1199,867 @@ footer{
     flex-direction:column;
   }
 
+}
+
+/* =========================================================
+   NOVO LAYOUT — INSTITUCIONAL + PLACAR
+   ========================================================= */
+.screen{
+  padding:clamp(18px,2vh,50px) clamp(25px,3vw,120px);
+}
+
+.panel-header{
+  display:grid;
+  grid-template-columns:minmax(280px,30%) minmax(0,70%);
+  align-items:center;
+  gap:clamp(20px,2vw,60px);
+  min-height:clamp(130px,12vh,280px);
+  padding-bottom:clamp(16px,1.5vh,35px);
+  border-bottom:1px solid var(--border);
+}
+
+.institution-block{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  padding-right:clamp(20px,2vw,60px);
+  border-right:1px solid rgba(255,255,255,.12);
+}
+
+.institution-block .panel-logo{
+  width:clamp(65px,5vw,150px);
+  height:clamp(65px,5vw,150px);
+  margin-bottom:clamp(10px,1vh,22px);
+}
+
+.institution-block .institution{
+  font-size:clamp(18px,1.25vw,46px);
+  letter-spacing:.08em;
+  line-height:1.15;
+}
+
+.institution-block .small-status{
+  margin-top:clamp(7px,.6vh,14px);
+  font-size:clamp(11px,.7vw,25px);
+}
+
+.header-voting{
+  text-align:left;
+}
+
+.header-voting h1{
+  font-size:clamp(38px,4vw,130px);
+  margin:0 0 clamp(8px,1vh,18px);
+}
+
+.header-voting h2{
+  font-size:clamp(16px,1.15vw,42px);
+}
+
+main{
+  margin-top:clamp(18px,2vh,40px);
+}
+
+.results{
+  gap:clamp(12px,1vw,35px);
+}
+
+.result{
+  min-height:clamp(190px,22vh,480px);
+  padding:clamp(18px,1.4vw,45px);
+}
+
+.result .name{
+  font-size:clamp(18px,1.65vw,58px);
+}
+
+.result .number{
+  font-size:clamp(80px,8vw,280px);
+  margin:clamp(10px,1.2vh,28px) 0;
+}
+
+.result .percent{
+  font-size:clamp(15px,1.1vw,40px);
+}
+
+.progress-card{
+  margin-top:clamp(12px,1.2vh,30px);
+  padding:clamp(14px,1vw,30px);
+}
+
+.progress-title{
+  font-size:clamp(14px,.85vw,30px);
+}
+
+.bar{
+  height:clamp(15px,.9vh,30px);
+}
+
+.voters{
+  margin-top:clamp(14px,1.5vh,35px);
+}
+
+.voter-list{
+  max-height:25vh;
+  grid-template-columns:repeat(auto-fit,minmax(clamp(280px,15vw,600px),1fr));
+}
+
+.voter-person{
+  display:flex;
+  align-items:center;
+  gap:clamp(8px,.5vw,18px);
+  min-width:0;
+}
+
+.voter-photo{
+  width:clamp(34px,2.1vw,70px);
+  height:clamp(34px,2.1vw,70px);
+  border-radius:50%;
+  object-fit:cover;
+  flex-shrink:0;
+  border:2px solid rgba(255,255,255,.18);
+  background:#fff;
+}
+
+@media(min-width:3000px){
+  .screen{padding:30px 120px 25px}
+  .panel-header{grid-template-columns:30% 70%;gap:30px;min-height:210px}
+  .institution-block{padding-right:35px}
+  .institution-block .panel-logo{width:105px;height:105px}
+  .institution-block .institution{font-size:30px}
+  .institution-block .small-status{font-size:17px}
+  .header-voting h1{font-size:82px}
+  .header-voting h2{font-size:30px}
+  main{margin-top:22px}
+  .results{gap:28px}
+  .result{min-height:300px;padding:28px}
+  .result .name{font-size:42px}
+  .result .number{font-size:155px;margin:14px 0}
+  .result .percent{font-size:27px}
+  .progress-card{margin-top:18px;padding:18px 25px}
+  .progress-title{font-size:24px}
+  .bar{height:24px}
+  .voter-list{max-height:25vh;grid-template-columns:repeat(auto-fit,minmax(500px,1fr));gap:10px}
+  .voter{min-height:62px;padding:10px 18px;font-size:27px}
+  .voter strong{font-size:27px}
+  .voter-photo{width:50px;height:50px}
+}
+
+@media(max-width:1050px){
+  .panel-header{grid-template-columns:1fr;text-align:center}
+  .institution-block{align-items:center;padding-right:0;border-right:0;border-bottom:1px solid var(--border);padding-bottom:18px}
+  .header-voting{text-align:center}
+}
+
+@media(max-width:650px){
+  .panel-header{gap:14px}
+  .institution-block .panel-logo{width:55px;height:55px}
+  .institution-block .institution{font-size:17px}
+  .header-voting h1{font-size:34px}
+  .header-voting h2{font-size:14px}
+  .result .number{font-size:80px}
+}
+
+
+/* =========================================================
+   LAYOUT PRINCIPAL — INSTITUCIONAL À ESQUERDA / PLACAR À DIREITA
+   ========================================================= */
+.dashboard{
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(360px,28%) minmax(0,72%);
+  gap:clamp(24px,2vw,70px);
+  align-items:start;
+  margin-top:clamp(20px,2vh,45px);
+}
+
+.institution-panel{
+  position:sticky;
+  top:30px;
+  min-height:clamp(560px,65vh,1250px);
+  padding:clamp(35px,3vw,90px) clamp(25px,2.5vw,75px);
+  border:1px solid var(--border);
+  border-radius:clamp(22px,1.5vw,45px);
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025));
+  box-shadow:0 25px 80px rgba(0,0,0,.28);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.institution-logo{
+  width:clamp(120px,9vw,280px);
+  height:clamp(120px,9vw,280px);
+  object-fit:contain;
+  background:#fff;
+  border-radius:clamp(18px,1vw,30px);
+  padding:clamp(7px,.5vw,16px);
+  margin-bottom:clamp(25px,2vw,55px);
+}
+
+.institution-name{
+  font-size:clamp(22px,1.55vw,52px);
+  line-height:1.12;
+  letter-spacing:.08em;
+  font-weight:900;
+}
+
+.institution-label{
+  margin-top:clamp(10px,.7vw,20px);
+  color:var(--muted);
+  font-size:clamp(12px,.8vw,28px);
+  letter-spacing:.16em;
+  font-weight:800;
+}
+
+.institution-divider{
+  width:70%;
+  height:1px;
+  margin:clamp(30px,3vw,75px) 0 clamp(25px,2.2vw,60px);
+  background:var(--border);
+}
+
+.institution-vote-label{
+  color:var(--blue-light);
+  font-size:clamp(13px,.8vw,28px);
+  letter-spacing:.18em;
+  font-weight:900;
+  margin-bottom:clamp(12px,1vw,25px);
+}
+
+.institution-panel h1{
+  margin:0;
+  font-size:clamp(42px,3.5vw,115px);
+  line-height:.95;
+  font-weight:1000;
+}
+
+.institution-panel h2{
+  margin-top:clamp(14px,1vw,28px);
+  font-size:clamp(15px,1vw,34px);
+  line-height:1.3;
+}
+
+.voting-panel{
+  min-width:0;
+}
+
+.voting-panel #resultsSection{
+  width:100%;
+}
+
+.voting-panel .results{
+  grid-template-columns:repeat(var(--chapa-count,4),minmax(0,1fr));
+}
+
+.voting-panel .result{
+  min-height:clamp(260px,30vh,650px);
+}
+
+.voting-panel .result .name{
+  font-size:clamp(22px,2vw,68px);
+}
+
+.voting-panel .result .number{
+  font-size:clamp(100px,9vw,310px);
+}
+
+.voting-panel .result .percent{
+  font-size:clamp(17px,1.25vw,42px);
+}
+
+.voting-panel .progress-card{
+  margin-top:clamp(18px,1.5vh,35px);
+}
+
+.voting-panel .composition-wrap,
+.voting-panel .voters{
+  margin-top:clamp(24px,2vh,45px);
+}
+
+@media(min-width:3000px){
+  .dashboard{
+    grid-template-columns:28% 72%;
+    gap:35px;
+    margin-top:28px;
+  }
+  .institution-panel{
+    min-height:600px;
+    padding:55px 45px;
+    top:25px;
+  }
+  .institution-logo{width:180px;height:180px;margin-bottom:35px}
+  .institution-name{font-size:34px}
+  .institution-label{font-size:19px}
+  .institution-divider{margin:45px 0 35px}
+  .institution-vote-label{font-size:20px}
+  .institution-panel h1{font-size:78px}
+  .institution-panel h2{font-size:28px}
+  .voting-panel .results{gap:28px}
+  .voting-panel .result{min-height:360px;padding:35px}
+  .voting-panel .result .name{font-size:46px}
+  .voting-panel .result .number{font-size:175px}
+  .voting-panel .result .percent{font-size:29px}
+}
+
+@media(max-width:1100px){
+  .dashboard{grid-template-columns:1fr;gap:20px}
+  .institution-panel{position:relative;top:auto;min-height:0;padding:28px}
+  .institution-logo{width:85px;height:85px;margin-bottom:15px}
+  .institution-divider{margin:20px 0}
+  .institution-panel h1{font-size:42px}
+}
+
+@media(max-width:650px){
+  .dashboard{margin-top:15px}
+  .institution-panel{padding:24px 18px;border-radius:18px}
+  .institution-name{font-size:19px}
+  .institution-label{font-size:10px}
+  .institution-panel h1{font-size:34px}
+  .institution-panel h2{font-size:14px}
+  .voting-panel .result{min-height:180px}
+  .voting-panel .result .number{font-size:80px}
+}
+
+/* =========================================================
+   SESSÃO INFERIOR — CHAPAS E VEREADORES
+   ========================================================= */
+.dashboard-page{
+  width:100%;
+}
+
+.lower-section{
+  width:100%;
+  margin-top:clamp(20px,2vh,45px);
+  padding-top:clamp(18px,1.5vh,35px);
+  border-top:1px solid var(--border);
+}
+
+.lower-section .composition-wrap{
+  margin-top:0;
+  align-items:stretch;
+}
+
+.lower-section .section-title{
+  text-align:left;
+}
+
+.lower-section .composition{
+  justify-content:stretch;
+}
+
+.lower-section .composition-card{
+  flex:1 1 280px;
+}
+
+.lower-section .voters{
+  margin-top:clamp(18px,1.5vh,35px);
+}
+
+@media(min-width:3000px){
+  .lower-section{
+    margin-top:28px;
+    padding-top:25px;
+  }
+
+  .lower-section .voters{
+    margin-top:28px;
+  }
+}
+
+@media(max-width:1050px){
+  .lower-section{
+    margin-top:20px;
+  }
+}
+
+/* =========================================================
+   AJUSTE FINAL PARA TELÃO 5760x2160
+   Mais escala, melhor aproveitamento vertical e leitura à distância
+   ========================================================= */
+@media (min-width: 3000px){
+  html, body{
+    height:100%;
+    min-height:100%;
+  }
+
+  body{
+    overflow:hidden;
+  }
+
+  .screen{
+    height:100vh;
+    min-height:100vh;
+    padding:30px 120px 25px;
+    overflow:hidden;
+  }
+
+  main{
+    margin-top:32px;
+  }
+
+  /* -------------------------
+     BLOCO SUPERIOR
+     ------------------------- */
+  .dashboard-page{
+    width:100%;
+  }
+
+  .dashboard{
+    grid-template-columns:27% 73%;
+    gap:32px;
+    align-items:stretch;
+    margin-top:0;
+    min-height:790px;
+  }
+
+  .institution-panel{
+    position:relative;
+    top:auto;
+    min-height:900px;
+    height:900px;
+    padding:55px 60px;
+    border-radius:32px;
+  }
+
+  .institution-logo{
+    width:210px;
+    height:210px;
+    margin-bottom:28px;
+    border-radius:24px;
+    padding:8px;
+  }
+
+  .institution-name{
+    font-size:44px;
+    line-height:1.08;
+  }
+
+  .institution-label{
+    margin-top:12px;
+    font-size:18px;
+  }
+
+  .institution-divider{
+    width:78%;
+    margin:34px 0 28px;
+  }
+
+  .institution-vote-label{
+    font-size:24px;
+    margin-bottom:16px;
+  }
+
+  .institution-panel h1{
+    font-size:110px;
+    line-height:.92;
+  }
+
+  .institution-panel h2{
+    margin-top:18px;
+    font-size:27px;
+  }
+
+  /* -------------------------
+     PLACAR
+     ------------------------- */
+  .voting-panel{
+    min-width:0;
+    height:900px;
+  }
+
+  .voting-panel .results{
+    grid-template-columns:repeat(var(--chapa-count, 2), minmax(0,1fr));
+    gap:28px;
+    height:720px;
+  }
+
+  .voting-panel .result{
+    min-height:720px;
+    height:720px;
+    padding:42px 35px;
+    border-radius:28px;
+  }
+
+  .voting-panel .result .name{
+    font-size:60px;
+  }
+
+  .voting-panel .result .number{
+    font-size:260px;
+    line-height:.85;
+    margin:45px 0 25px;
+  }
+
+  .voting-panel .result .percent{
+    font-size:30px;
+  }
+
+  .voting-panel .progress-card{
+    margin-top:22px;
+    padding:18px 25px;
+    border-radius:18px;
+  }
+
+  .progress-title{
+    font-size:23px;
+  }
+
+  .bar{
+    height:28px;
+    margin-top:10px;
+  }
+
+  .bar-legend{
+    font-size:19px;
+    margin-top:10px;
+  }
+
+  /* -------------------------
+     SESSÃO INFERIOR
+     ------------------------- */
+  .lower-section{
+    margin-top:32px;
+    padding-top:28px;
+    border-top-width:2px;
+  }
+
+  .lower-section .section-title,
+  .voters-title{
+    font-size:30px;
+    margin-bottom:18px;
+  }
+
+  .lower-section .composition{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:32px;
+  }
+
+  .lower-section .composition-card{
+    min-width:0;
+    height:380px;
+    padding:28px 34px;
+    border-radius:22px;
+  }
+
+  .composition-card h3{
+    font-size:36px;
+    margin-bottom:20px;
+  }
+
+  .cargo{
+    padding:14px 0;
+    font-size:25px;
+  }
+
+  .cargo strong{
+    font-size:20px;
+  }
+
+  .lower-section .voters{
+    margin-top:24px;
+  }
+
+  .voter-list{
+    max-height:650px;
+    overflow:hidden;
+    grid-template-columns:repeat(7, minmax(0,1fr));
+    gap:18px;
+  }
+
+  .voter{
+    min-width:0;
+    min-height:150px;
+    height:150px;
+    padding:20px 24px;
+    border-radius:20px;
+    gap:16px;
+    font-size:28px;
+  }
+
+  .voter strong{
+    font-size:28px;
+  }
+
+  .voter > span{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .voter-photo{
+    width:72px;
+    height:72px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVO — COMPUTADORES / NOTEBOOKS / MONITORES
+   Não interfere no layout especial do telão (>= 3000px).
+   ========================================================= */
+@media (min-width:1051px) and (max-width:2999px){
+  .screen{
+    min-height:100vh;
+    padding:24px clamp(24px,3vw,70px) 20px;
+    overflow:auto;
+  }
+
+  main{
+    margin-top:20px;
+  }
+
+  .dashboard{
+    grid-template-columns:minmax(300px,30%) minmax(0,70%);
+    gap:20px;
+    margin-top:0;
+    align-items:stretch;
+  }
+
+  .institution-panel{
+    position:relative;
+    top:auto;
+    min-height:360px;
+    height:auto;
+    padding:30px 28px;
+    border-radius:22px;
+  }
+
+  .institution-logo{
+    width:90px;
+    height:90px;
+    margin-bottom:16px;
+    border-radius:14px;
+    padding:5px;
+  }
+
+  .institution-name{
+    font-size:clamp(18px,1.35vw,32px);
+  }
+
+  .institution-label{
+    margin-top:7px;
+    font-size:clamp(9px,.65vw,16px);
+  }
+
+  .institution-divider{
+    width:65%;
+    margin:20px 0 17px;
+  }
+
+  .institution-vote-label{
+    font-size:clamp(10px,.65vw,16px);
+    margin-bottom:8px;
+  }
+
+  .institution-panel h1{
+    font-size:clamp(38px,3.2vw,68px);
+  }
+
+  .institution-panel h2{
+    margin-top:9px;
+    font-size:clamp(12px,.8vw,18px);
+  }
+
+  .voting-panel{
+    min-width:0;
+  }
+
+  .voting-panel .results{
+    grid-template-columns:repeat(var(--chapa-count,2),minmax(0,1fr));
+    gap:18px;
+  }
+
+  .voting-panel .result{
+    min-height:300px;
+    height:300px;
+    padding:24px 18px;
+    border-radius:18px;
+  }
+
+  .voting-panel .result .name{
+    font-size:clamp(18px,1.5vw,32px);
+  }
+
+  .voting-panel .result .number{
+    font-size:clamp(80px,7vw,145px);
+    margin:20px 0 10px;
+  }
+
+  .voting-panel .result .percent{
+    font-size:clamp(13px,.85vw,20px);
+  }
+
+  .voting-panel .progress-card{
+    margin-top:12px;
+    padding:10px 14px;
+    border-radius:12px;
+  }
+
+  .progress-title{
+    font-size:clamp(10px,.55vw,14px);
+  }
+
+  .bar{
+    height:14px;
+    margin-top:6px;
+  }
+
+  .bar-legend{
+    margin-top:6px;
+    padding-top:5px;
+  }
+
+  .legend-item{
+    font-size:clamp(9px,.5vw,13px);
+  }
+
+  .lower-section{
+    margin-top:18px;
+    padding-top:16px;
+  }
+
+  .lower-section .section-title,
+  .voters-title{
+    font-size:clamp(12px,.65vw,17px);
+    margin-bottom:8px;
+  }
+
+  .lower-section .composition{
+    display:grid;
+    width:100%;
+    gap:16px;
+    align-items:stretch;
+  }
+
+  /* A quantidade de chapas define automaticamente a largura dos cards. */
+  .lower-section .composition.composition-count-1{
+    grid-template-columns:minmax(0,1fr);
+    max-width:900px;
+  }
+
+  .lower-section .composition.composition-count-2{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .lower-section .composition.composition-count-3{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .lower-section .composition.composition-count-4{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+
+  .lower-section .composition-card{
+    min-width:0;
+    width:100%;
+    height:auto;
+    padding:14px 18px;
+    border-radius:14px;
+  }
+
+  .composition-card h3{
+    font-size:clamp(15px,.8vw,20px);
+    margin-bottom:8px;
+  }
+
+  .cargo{
+    padding:6px 0;
+    font-size:clamp(10px,.55vw,14px);
+  }
+
+  .cargo strong{
+    font-size:clamp(9px,.5vw,13px);
+  }
+
+  .lower-section .voters{
+    margin-top:16px;
+  }
+
+  @media(max-width:900px){
+    .lower-section .composition.composition-count-3,
+    .lower-section .composition.composition-count-4{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+  }
+
+  @media(max-width:600px){
+    .lower-section .composition.composition-count-2,
+    .lower-section .composition.composition-count-3,
+    .lower-section .composition.composition-count-4{
+      grid-template-columns:minmax(0,1fr);
+    }
+  }
+
+  .voter-list{
+    max-height:none;
+    overflow:visible;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;
+  }
+
+  .voter{
+    min-width:0;
+    min-height:54px;
+    height:54px;
+    padding:8px 10px;
+    border-radius:10px;
+    gap:8px;
+    font-size:clamp(11px,.62vw,15px);
+  }
+
+  .voter strong{
+    font-size:clamp(10px,.58vw,14px);
+  }
+
+  .voter-photo{
+    width:34px;
+    height:34px;
+  }
+
+  footer{
+    font-size:clamp(9px,.5vw,13px);
+    padding-top:10px;
+  }
+}
+
+/* =========================================================
+   COMPOSIÇÃO DAS CHAPAS — TELÃO
+   1, 2, 3 ou 4 chapas sempre lado a lado
+   ========================================================= */
+@media (min-width:3000px){
+  .lower-section .composition{
+    display:grid !important;
+    width:100%;
+    gap:28px;
+    align-items:stretch;
+  }
+
+  .lower-section .composition.composition-count-1{
+    grid-template-columns:minmax(0,1fr) !important;
+    max-width:none;
+  }
+
+  .lower-section .composition.composition-count-2{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .lower-section .composition.composition-count-3{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  }
+
+  .lower-section .composition.composition-count-4{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+
+  .lower-section .composition-card{
+    width:100%;
+    min-width:0;
+    height:380px;
+    box-sizing:border-box;
+  }
 }

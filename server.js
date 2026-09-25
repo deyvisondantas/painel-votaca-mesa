@@ -12,27 +12,27 @@ const LOGO_FILE = path.join(__dirname, "public", "logo.png");
 // Identificadores internos.
 // NÃO representam números de gabinete e não são exibidos ao usuário.
 const VEREADORES_PADRAO = [
-  ["vereador01","Éder Queiroz","/vereadores/eder_queiroz.jpg"],
-  ["vereador02","Jonas Godeiro","/vereadores/jonas_godeiro.jpg"],
-  ["vereador03","Rhalessa de Clênio","/vereadores/rhalessa_de_clenio.jpg"],
-  ["vereador04","Wolney França","/vereadores/wolney_franca.jpg"],
-  ["vereador05","Gabriel César","/vereadores/gabriel_cesar.jpg"],
-  ["vereador06","Binho de Ambrósio","/vereadores/binho_de_ambrosio.jpg"],
-  ["vereador07","Thiago Fernandes","/vereadores/thiago_fernandes.jpg"],
-  ["vereador08","Léo Lima","/vereadores/leo_lima.jpg"],
-  ["vereador09","Michael Diniz","/vereadores/michael_diniz.jpg"],
-  ["vereador10","Irani Guedes","/vereadores/irani_guedes.jpg"],
-  ["vereador11","Chicão","/vereadores/chicao.jpg"],
-  ["vereador12","Carol Pires","/vereadores/carol_pires.jpg"],
-  ["vereador13","Michael Borges","/vereadores/michael_borges.jpg"],
-  ["vereador14","Professor Ítalo","/vereadores/professor_italo.jpg"],
-  ["vereador15","Rafaela de Nilda","/vereadores/rafaela_de_nilda.jpg"],
-  ["vereador16","Professor Diego Américo","/vereadores/professor_diego_americo.jpg"],
-  ["vereador17","Rodrigo Cruz","/vereadores/rodrigo_cruz.jpg"],
-  ["vereador18","Dr. César Maia","/vereadores/dr_cesar_maia.jpg"],
-  ["vereador19","Rárika Bastos","/vereadores/rarika_bastos.jpg"],
-  ["vereador20","Afrânio Bezerra","/vereadores/afranio_bezerra.jpg"],
-  ["vereador21","Eurico da Japão","/vereadores/eurico_da_japao.jpg"]
+  ["vereador01","Éder Queiroz - PL","/vereadores/eder_queiroz.jpg"],
+  ["vereador02","Jonas Godeiro - AVANTE","/vereadores/jonas_godeiro.jpg"],
+  ["vereador03","Rhalessa de Clênio - SD","/vereadores/rhalessa_de_clenio.jpg"],
+  ["vereador04","Wolney França - PSDB","/vereadores/wolney_franca.jpg"],
+  ["vereador05","Gabriel César - PL","/vereadores/gabriel_cesar.jpg"],
+  ["vereador06","Binho de Ambrósio - PSD","/vereadores/binho_de_ambrosio.jpg"],
+  ["vereador07","Thiago Fernandes - PP","/vereadores/thiago_fernandes.jpg"],
+  ["vereador08","Léo Lima - PODE","/vereadores/leo_lima.jpg"],
+  ["vereador09","Michael Diniz - PL","/vereadores/michael_diniz.jpg"],
+  ["vereador10","Irani Guedes - REPUBLICANOS","/vereadores/irani_guedes.jpg"],
+  ["vereador11","Chicão - MDB","/vereadores/chicao.jpg"],
+  ["vereador12","Carol Pires - UNIÃO","/vereadores/carol_pires.jpg"],
+  ["vereador13","Michael Borges - PL","/vereadores/michael_borges.jpg"],
+  ["vereador14","Professor Ítalo - PSDB","/vereadores/professor_italo.jpg"],
+  ["vereador15","Rafaela de Nilda - SD","/vereadores/rafaela_de_nilda.jpg"],
+  ["vereador16","Professor Diego Américo - SEM PARTIDO","/vereadores/professor_diego_americo.jpg"],
+  ["vereador17","Rodrigo Cruz - PODE","/vereadores/rodrigo_cruz.jpg"],
+  ["vereador18","Dr. César Maia - MDB","/vereadores/dr_cesar_maia.jpg"],
+  ["vereador19","Rárika Bastos - REPUBLICANOS","/vereadores/rarika_bastos.jpg"],
+  ["vereador20","Afrânio Bezerra - PL","/vereadores/afranio_bezerra.jpg"],
+  ["vereador21","Eurico da Japão - SD","/vereadores/eurico_da_japao.jpg"]
 ].map(([gabinete, nome, foto]) => ({ gabinete, nome, foto }))
  .sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
 

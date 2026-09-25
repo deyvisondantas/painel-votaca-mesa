@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,138 +13,59 @@
 
 <div class="screen">
 
-<header>
+<main class="dashboard-page">
 
-  <div class="brand-line">
+  <section class="dashboard">
 
-    <img
-      src="/logo.png"
-      alt="Câmara Municipal"
-      class="panel-logo"
-    >
+    <aside class="institution-panel">
+      <img src="/logo.png" alt="Câmara Municipal de Parnamirim" class="institution-logo">
+      <div class="institution-name">CÂMARA MUNICIPAL DE PARNAMIRIM</div>
+      <div class="institution-label">PAINEL DE VOTAÇÃO</div>
 
-    <div>
+      <div class="institution-divider"></div>
 
-      <div class="institution">
-        CÂMARA MUNICIPAL DE PARNAMIRIM
-      </div>
+      <div class="institution-vote-label">VOTAÇÃO</div>
+      <h1 id="titulo">VOTAÇÃO</h1>
+      <h2 id="subtitulo">ELEIÇÃO DA MESA DIRETORA</h2>
+    </aside>
 
-      <div class="small-status">
-        PAINEL DE VOTAÇÃO
-      </div>
+    <section class="voting-panel">
 
-    </div>
+      <section id="finalResult" class="final-result hidden"></section>
 
-  </div>
+      <section id="resultsSection">
+        <section id="results" class="results"></section>
 
-  <h1 id="titulo">
-    VOTAÇÃO
-  </h1>
+        <section class="progress-card">
+          <div class="progress-title">
+            <span>Votos registrados</span>
+            <strong id="registered">0 / 21</strong>
+          </div>
 
-  <h2 id="subtitulo">
-    ELEIÇÃO DA MESA DIRETORA
-  </h2>
+          <div id="bar" class="bar"></div>
 
-</header>
-
-
-<main>
-
-  <!-- =====================================================
-       RESULTADO FINAL
-       ===================================================== -->
-
-  <section
-    id="finalResult"
-    class="final-result hidden">
-  </section>
-
-
-  <!-- =====================================================
-       RESULTADOS DURANTE A VOTAÇÃO
-       ===================================================== -->
-
-  <section id="resultsSection">
-
-    <!-- CHAPAS -->
-
-    <section
-      id="results"
-      class="results">
-    </section>
-
-
-    <!-- ===================================================
-         BARRA DE VOTOS
-         =================================================== -->
-
-    <section class="progress-card">
-
-      <div class="progress-title">
-
-        <span>
-          Votos registrados
-        </span>
-
-        <strong id="registered">
-          0 / 21
-        </strong>
-
-      </div>
-
-
-      <div
-        id="bar"
-        class="bar">
-      </div>
-
-
-      <!-- LEGENDA -->
-
-      <div
-        id="barLegend"
-        class="bar-legend">
-      </div>
+          <div id="barLegend" class="bar-legend"></div>
+        </section>
+      </section>
 
     </section>
 
   </section>
 
-
   <!-- =====================================================
-       COMPOSIÇÃO
+       SESSÃO INFERIOR — CHAPAS E VEREADORES
        ===================================================== -->
+  <section class="lower-section">
 
-  <section
-    id="compositionSection"
-    class="composition-wrap">
+    <section id="compositionSection" class="composition-wrap">
+      <div class="section-title">COMPOSIÇÃO DAS CHAPAS</div>
+      <div id="composition" class="composition"></div>
+    </section>
 
-    <div class="section-title">
-      COMPOSIÇÃO DAS CHAPAS
-    </div>
-
-    <div
-      id="composition"
-      class="composition">
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       VEREADORES
-       ===================================================== -->
-
-  <section class="voters">
-
-    <div class="voters-title">
-      VEREADORES
-    </div>
-
-    <div
-      id="voterList"
-      class="voter-list">
-    </div>
+    <section class="voters">
+      <div class="voters-title">VEREADORES</div>
+      <div id="voterList" class="voter-list"></div>
+    </section>
 
   </section>
 
@@ -206,6 +126,8 @@ const esc = s =>
    ========================================================= */
 
 function renderComposition(chapas){
+
+  composition.className = `composition composition-count-${Math.min(Math.max(chapas.length, 1), 4)}`;
 
   composition.innerHTML = chapas.map(chapa => `
 
@@ -328,26 +250,18 @@ function renderFinalResult(ativos, resultado){
                 ${label}
               </span>
 
-              <div class="winner-person">
-                <img
-                  class="winner-photo"
-                  src="${esc(state.vereadores.find(v => v.gabinete === chapa.cargos?.[key])?.foto || '/vereadores/sem-foto.png')}"
-                  alt=""
-                  onerror="this.onerror=null;this.src='/vereadores/sem-foto.png';"
-                >
-                <strong>
-                  ${
-                    esc(
-                      state.vereadores.find(
-                        v =>
-                          v.gabinete ===
-                          chapa.cargos?.[key]
-                      )?.nome ||
-                      "Não informado"
-                    )
-                  }
-                </strong>
-              </div>
+              <strong>
+                ${
+                  esc(
+                    state.vereadores.find(
+                      v =>
+                        v.gabinete ===
+                        chapa.cargos?.[key]
+                    )?.nome ||
+                    "Não informado"
+                  )
+                }
+              </strong>
 
             </div>
 
