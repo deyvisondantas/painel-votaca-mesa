@@ -1056,11 +1056,11 @@ footer{
   }
 
   .winner-cargo span{
-    font-size:28px;
+    font-size:50px;
   }
 
   .winner-cargo strong{
-    font-size:34px;
+    font-size:50px;
   }
 
 }
@@ -1669,18 +1669,21 @@ main{
      ------------------------- */
   .voting-panel{
     min-width:0;
-    height:900px;
+    min-height:900px;
+    height:auto;
+    overflow:visible;
   }
 
   .voting-panel .results{
     grid-template-columns:repeat(var(--chapa-count, 2), minmax(0,1fr));
     gap:28px;
-    height:720px;
+    min-height:720px;
+    height:auto;
   }
 
   .voting-panel .result{
     min-height:720px;
-    height:720px;
+    height:auto;
     padding:42px 35px;
     border-radius:28px;
   }
@@ -2090,5 +2093,291 @@ main{
     border: 5px solid rgba(255,255,255,.25);
     background: #fff;
     box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  }
+}
+
+/* =========================================================
+   AJUSTE FINAL — TELÃO 5630 x 2160
+   CHAPA ELEITA SEM SOBREPOSIÇÃO DA COMPOSIÇÃO
+   ========================================================= */
+
+@media (min-width:3000px){
+
+  /* ---------------------------------------------------------
+     ESTRUTURA PRINCIPAL
+     --------------------------------------------------------- */
+
+  .dashboard{
+    height:auto;
+    min-height:0;
+    align-items:start;
+  }
+
+  .voting-panel{
+    height:auto !important;
+    min-height:0;
+    overflow:visible;
+    align-self:start;
+  }
+
+  /* O bloco de resultados deve crescer conforme o conteúdo */
+  .voting-panel #resultsSection{
+    width:100%;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+  }
+
+  .voting-panel .results{
+    height:auto !important;
+    min-height:0;
+    overflow:visible;
+  }
+
+  /* ---------------------------------------------------------
+     CARDS DAS CHAPAS
+     --------------------------------------------------------- */
+
+  .voting-panel .result{
+    height:auto !important;
+    min-height:360px;
+    overflow:visible;
+  }
+
+  /* ---------------------------------------------------------
+     RESULTADO DA CHAPA ELEITA
+     --------------------------------------------------------- */
+
+  .final-result{
+    position:relative;
+    z-index:2;
+
+    width:100%;
+    max-width:100%;
+
+    height:auto !important;
+    min-height:68vh;
+
+    margin:
+      32px
+      0
+      0;
+
+    padding:
+      40px
+      45px
+      50px;
+
+    box-sizing:border-box;
+
+    overflow:visible;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .final-result .winner-kicker{
+    margin-bottom:20px;
+  }
+
+  .final-result h3{
+    margin:20px 0;
+  }
+
+  .winner-votes{
+    margin-top:15px;
+  }
+
+  /*
+   * A composição da chapa eleita usa 5 cargos.
+   * Mantemos os cinco lado a lado no telão.
+   */
+  .winner-composition{
+    width:100%;
+    max-width:100%;
+    margin-top:40px;
+
+    display:grid;
+    grid-template-columns:
+      repeat(5,minmax(0,1fr));
+
+    gap:24px;
+
+    box-sizing:border-box;
+  }
+
+  .winner-cargo{
+    min-width:0;
+    box-sizing:border-box;
+    padding:25px 18px;
+  }
+
+  /*
+   * A foto é grande em CSS para manter boa leitura no telão,
+   * mas nunca pode forçar o bloco a sair da área disponível.
+   */
+  .winner-photo{
+    width:min(600px,100%);
+    height:min(600px,100%);
+    max-width:100%;
+    max-height:600px;
+    object-fit:cover;
+  }
+
+  /* ---------------------------------------------------------
+     SESSÃO INFERIOR
+     --------------------------------------------------------- */
+
+  .lower-section{
+    position:relative;
+    z-index:1;
+
+    clear:both;
+
+    width:100%;
+    height:auto;
+    min-height:0;
+
+    margin-top:45px;
+    padding-top:28px;
+
+    box-sizing:border-box;
+  }
+
+  /*
+   * Importante: a composição só começa depois do conteúdo
+   * real do resultado acima.
+   */
+  .lower-section .composition{
+    position:relative;
+    z-index:1;
+  }
+
+  .lower-section .voters{
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------------------------------------------------------
+     QUANDO HÁ UMA CHAPA
+     --------------------------------------------------------- */
+
+  .lower-section .composition.composition-count-1{
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+
+  /* ---------------------------------------------------------
+     QUANDO HÁ DUAS CHAPAS
+     --------------------------------------------------------- */
+
+  .lower-section .composition.composition-count-2{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr)) !important;
+  }
+
+  /* ---------------------------------------------------------
+     QUANDO HÁ TRÊS CHAPAS
+     --------------------------------------------------------- */
+
+  .lower-section .composition.composition-count-3{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr)) !important;
+  }
+
+  /* ---------------------------------------------------------
+     QUANDO HÁ QUATRO CHAPAS
+     --------------------------------------------------------- */
+
+  .lower-section .composition.composition-count-4{
+    grid-template-columns:
+      repeat(4,minmax(0,1fr)) !important;
+  }
+
+  /* ---------------------------------------------------------
+     SEGURANÇA CONTRA OVERFLOW
+     --------------------------------------------------------- */
+
+  .dashboard-page,
+  .dashboard,
+  .voting-panel,
+  #resultsSection,
+  .lower-section{
+    box-sizing:border-box;
+  }
+
+}
+
+
+/* =========================================================
+   AJUSTE ESPECÍFICO PARA A PROPORÇÃO 5630 x 2160
+   ========================================================= */
+
+@media (min-width:5000px) and (max-height:2400px){
+
+  .screen{
+    min-height:100vh;
+    height:auto;
+    overflow:visible;
+  }
+
+  main{
+    margin-top:25px;
+  }
+
+  .dashboard{
+    grid-template-columns:27% 73%;
+    gap:32px;
+    height:auto;
+    min-height:0;
+  }
+
+  .institution-panel{
+    height:900px;
+    min-height:900px;
+  }
+
+  .voting-panel{
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  .voting-panel .results{
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  .voting-panel .result{
+    height:auto !important;
+    min-height:360px;
+  }
+
+  /*
+   * O resultado final determina a altura do lado direito.
+   * A seção inferior não é posicionada manualmente.
+   */
+  .final-result{
+    position:relative;
+    height:auto !important;
+    min-height:0 !important;
+    margin-top:30px;
+    margin-bottom:0;
+  }
+
+  .winner-photo{
+    width:600px;
+    height:600px;
+    max-width:100%;
+    object-fit:cover;
+  }
+
+  .winner-composition{
+    margin-top:40px;
+  }
+
+  .lower-section{
+    margin-top:50px;
+    padding-top:30px;
   }
 }
