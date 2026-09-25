@@ -2063,3 +2063,32 @@ main{
     box-sizing:border-box;
   }
 }
+
+.winner-photo {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 18px;
+  border: 4px solid rgba(255,255,255,.22);
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,.35);
+}
+
+.winner-cargo-info {
+  text-align: center;
+}
+
+@media (min-width: 3000px) {
+  .winner-photo {
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 22px;
+    border: 5px solid rgba(255,255,255,.25);
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  }
+}

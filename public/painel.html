@@ -245,25 +245,28 @@ function renderFinalResult(ativos, resultado){
           ([key,label]) => `
 
             <div class="winner-cargo">
+  ${(() => {
+    const vereador = state.vereadores.find(
+      v => v.gabinete === chapa.cargos?.[key]
+    );
 
-              <span>
-                ${label}
-              </span>
+    const foto = vereador?.foto || "/vereadores/sem-foto.png";
 
-              <strong>
-                ${
-                  esc(
-                    state.vereadores.find(
-                      v =>
-                        v.gabinete ===
-                        chapa.cargos?.[key]
-                    )?.nome ||
-                    "Não informado"
-                  )
-                }
-              </strong>
+    return `
+      <img
+        class="winner-photo"
+        src="${esc(foto)}"
+        alt="${esc(vereador?.nome || "Vereador")}"
+        onerror="this.onerror=null;this.src='/vereadores/sem-foto.png';"
+      >
 
-            </div>
+      <div class="winner-cargo-info">
+        <span>${label}</span>
+        <strong>${esc(vereador?.nome || "Não informado")}</strong>
+      </div>
+    `;
+  })()}
+</div>
 
           `
         ).join("")}
