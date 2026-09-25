@@ -77,9 +77,7 @@ body{padding-right:0}
   flex-wrap:wrap
 }
 
-.section-save{
-  min-width:190px
-}
+.section-save{min-width:190px}
 
 @media(max-width:900px){
   .right-menu{
@@ -110,13 +108,8 @@ body{padding-right:0}
 
   .page-content{margin-right:0}
 
-  .section-actions{
-    justify-content:stretch
-  }
-
-  .section-save{
-    width:100%
-  }
+  .section-actions{justify-content:stretch}
+  .section-save{width:100%}
 }
 
 
@@ -183,14 +176,95 @@ body{padding-right:0}
   color:#152238;
   font:inherit;
 }
-.vereador-actions{
-  flex-shrink:0;
-}
+.vereador-actions{flex-shrink:0}
+
 @media(max-width:700px){
   .vereador-edit{flex-direction:column;align-items:stretch!important}
   .vereador-photo-box{width:100%;flex-basis:auto}
   .vereador-fields{width:100%}
   .vereador-actions .btn{width:100%}
+}
+
+
+/* =========================================
+   PESQUISA DE VEREADORES NAS CHAPAS
+   ========================================= */
+
+.vereador-selector{position:relative}
+
+.vereador-search-box{
+  position:relative;
+  width:100%;
+}
+
+.vereador-search{
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  color:#152238;
+  font:inherit;
+}
+
+.vereador-search:focus{
+  outline:none;
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+
+.vereador-dropdown{
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(100% + 4px);
+  z-index:5000;
+  display:none;
+  max-height:260px;
+  overflow-y:auto;
+  background:#fff;
+  border:1px solid #cfd8e3;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(15,23,42,.15);
+  padding:5px;
+}
+
+.vereador-dropdown.show{display:block}
+
+.vereador-option{
+  width:100%;
+  display:block;
+  border:0;
+  background:#fff;
+  color:#172033;
+  text-align:left;
+  padding:11px 12px;
+  border-radius:7px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.vereador-option:hover{
+  background:#eaf2ff;
+  color:#1d4ed8;
+}
+
+.vereador-empty{
+  padding:12px;
+  color:#7a8694;
+  font-size:13px;
+  text-align:center;
+}
+
+@media(max-width:700px){
+  .vereador-dropdown{
+    position:fixed;
+    left:12px;
+    right:12px;
+    max-height:300px;
+  }
 }
 </style>
 </head>
@@ -245,10 +319,7 @@ body{padding-right:0}
 
 <div id="lockNotice" class="notice hidden page-section" data-page="votacao"></div>
 
-<!-- ========================= -->
 <!-- VOTAÇÃO -->
-<!-- ========================= -->
-
 <section class="toolbar page-section" data-page="votacao">
   <div>
     <strong>Controle da votação</strong>
@@ -272,16 +343,9 @@ body{padding-right:0}
   </div>
 </section>
 
-
-<!-- ========================= -->
 <!-- CONFIGURAÇÃO -->
-<!-- ========================= -->
-
 <section class="card config-card page-section" data-page="configuracao">
-
-  <div class="section-title">
-    Identificação da votação
-  </div>
+  <div class="section-title">Identificação da votação</div>
 
   <div class="config-grid">
     <label>
@@ -300,19 +364,11 @@ body{padding-right:0}
       💾 Salvar configuração
     </button>
   </div>
-
 </section>
 
-
-<!-- ========================= -->
 <!-- VEREADORES -->
-<!-- ========================= -->
-
 <section class="card config-card page-section" data-page="vereadores">
-
-  <div class="section-title">
-    Vereadores
-  </div>
+  <div class="section-title">Vereadores</div>
 
   <div class="hint">
     Adicione ou remova vereadores conforme a Câmara. Os identificadores permanecem internos e não são exibidos ao usuário.
@@ -323,7 +379,6 @@ body{padding-right:0}
   <div id="vereadoresConfig" class="vereadores-config"></div>
 
   <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-
     <button class="btn btn-secondary" onclick="adicionarVereador()">
       + Adicionar vereador
     </button>
@@ -331,7 +386,6 @@ body{padding-right:0}
     <button class="btn btn-primary" onclick="salvarVereadores()">
       Salvar vereadores
     </button>
-
   </div>
 
   <div class="section-actions">
@@ -339,19 +393,11 @@ body{padding-right:0}
       💾 Salvar configuração
     </button>
   </div>
-
 </section>
 
-
-<!-- ========================= -->
 <!-- CHAPAS -->
-<!-- ========================= -->
-
 <section class="card config-card page-section" data-page="chapas">
-
-  <div class="section-title">
-    Chapas
-  </div>
+  <div class="section-title">Chapas</div>
 
   <div class="hint">
     Cadastre <strong>de 1 a 4 chapas</strong>. Em cada chapa ativa, informe o nome e selecione um vereador para cada um dos 5 cargos da Mesa Diretora.
@@ -366,23 +412,13 @@ body{padding-right:0}
       💾 Salvar configuração
     </button>
   </div>
-
 </section>
 
-
-<!-- ========================= -->
 <!-- CARDS DE RESULTADO -->
-<!-- ========================= -->
-
 <section class="cards page-section" id="resultCards" data-page="votacao"></section>
 
-
-<!-- ========================= -->
 <!-- LANÇAMENTO DOS VOTOS -->
-<!-- ========================= -->
-
 <section class="card table-card page-section" data-page="votacao">
-
   <div class="table-header">
     <div>
       <strong>Lançamento dos votos</strong>
@@ -397,7 +433,6 @@ body{padding-right:0}
   </div>
 
   <div class="table-scroll">
-
     <table>
       <thead>
         <tr>
@@ -408,20 +443,13 @@ body{padding-right:0}
           <th>Ações</th>
         </tr>
       </thead>
-
       <tbody id="lista"></tbody>
     </table>
-
   </div>
 </section>
 
-
-<!-- ========================= -->
 <!-- FINALIZAÇÃO -->
-<!-- ========================= -->
-
 <section id="finalPanel" class="card final-card hidden page-section" data-page="votacao">
-
   <div>
     <h2>Votação finalizada</h2>
     <p id="finalText">
@@ -430,7 +458,6 @@ body{padding-right:0}
   </div>
 
   <div class="final-actions">
-
     <a id="pdfLink"
        class="btn btn-primary"
        href="/api/relatorio.pdf"
@@ -441,51 +468,39 @@ body{padding-right:0}
     <button class="btn btn-success" onclick="confirmarPdf()">
       ✓ Confirmar que o PDF foi salvo
     </button>
-
   </div>
 
   <div id="pdfStatus" class="muted"></div>
-
 </section>
 
 </main>
 </div>
 </div>
 
-
-<!-- ========================= -->
 <!-- MODAL FINALIZAÇÃO -->
-<!-- ========================= -->
-
 <div id="finalModal" class="modal hidden">
+  <div class="modal-box">
+    <img src="/logo.png" class="modal-logo" alt="">
 
-<div class="modal-box">
+    <h2>Finalizar votação?</h2>
 
-  <img src="/logo.png" class="modal-logo" alt="">
+    <p>
+      Depois de finalizar, nenhum voto poderá ser alterado.
+      O sistema exigirá o download do resultado em PDF antes
+      de permitir uma nova votação.
+    </p>
 
-  <h2>Finalizar votação?</h2>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="fecharModal()">
+        Cancelar
+      </button>
 
-  <p>
-    Depois de finalizar, nenhum voto poderá ser alterado.
-    O sistema exigirá o download do resultado em PDF antes
-    de permitir uma nova votação.
-  </p>
-
-  <div class="modal-actions">
-
-    <button class="btn btn-secondary" onclick="fecharModal()">
-      Cancelar
-    </button>
-
-    <button class="btn btn-primary" onclick="finalizarVotacao()">
-      Finalizar e gerar resultado
-    </button>
-
+      <button class="btn btn-primary" onclick="finalizarVotacao()">
+        Finalizar e gerar resultado
+      </button>
+    </div>
   </div>
-
 </div>
-</div>
-
 
 <script>
 let state=null;
@@ -506,6 +521,12 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
   "'":"&#039;"
 }[c]));
 
+function normalizarBusca(valor){
+  return String(valor||"")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+}
 
 async function api(url,opt={}){
   const r=await fetch(url,opt);
@@ -518,9 +539,7 @@ async function api(url,opt={}){
   return d;
 }
 
-
 function mostrarSecao(secao){
-
   document.querySelectorAll("[data-page]").forEach(el=>{
     el.classList.toggle(
       "hidden-section",
@@ -541,19 +560,13 @@ function mostrarSecao(secao){
   });
 }
 
-
 async function carregar(){
-
   state=await(await fetch("/api/state")).json();
-
   render();
-
   mostrarSecao("votacao");
 }
 
-
 function render(){
-
   if(!state)return;
 
   titulo.value=state.titulo;
@@ -567,9 +580,7 @@ function render(){
   atualizarBloqueios();
 }
 
-
 function renderVereadoresConfig(){
-
   const total=state.vereadores.length;
 
   vereadoresCount.textContent=
@@ -580,7 +591,6 @@ function renderVereadoresConfig(){
 
   vereadoresConfig.innerHTML=
     state.vereadores.map((v,i)=>`
-
       <div class="vereador-edit">
 
         <div class="vereador-photo-box">
@@ -590,6 +600,7 @@ function renderVereadoresConfig(){
             class="vereador-photo-preview"
             onerror="this.src='/vereadores/sem-foto.png'"
           >
+
           <label class="btn btn-secondary vereador-photo-btn">
             📷 Alterar foto
             <input
@@ -598,6 +609,7 @@ function renderVereadoresConfig(){
               onchange="selecionarFoto('${esc(v.gabinete)}', this.files[0])"
             >
           </label>
+
           ${v.foto && v.foto !== '/vereadores/sem-foto.png' ? `
             <button
               class="btn btn-clear vereador-remove-photo"
@@ -610,12 +622,14 @@ function renderVereadoresConfig(){
 
         <div class="vereador-fields">
           <span class="vereador-index">${i+1}.</span>
+
           <input
             id="vereador-${esc(v.gabinete)}"
             value="${esc(v.nome)}"
             maxlength="120"
             placeholder="Nome do vereador"
-          />
+          >
+
           <div class="vereador-actions">
             <button
               class="btn btn-danger"
@@ -627,13 +641,10 @@ function renderVereadoresConfig(){
         </div>
 
       </div>
-
     `).join("");
 }
 
-
 function adicionarVereador(){
-
   if(state.finalized)return;
 
   const id=
@@ -647,24 +658,18 @@ function adicionarVereador(){
 
   renderVereadoresConfig();
 
-  const input=
-    document.getElementById(`vereador-${id}`);
+  const input=document.getElementById(`vereador-${id}`);
 
   if(input){
-
     input.focus();
-
     input.scrollIntoView({
       behavior:"smooth",
       block:"center"
     });
-
   }
 }
 
-
 async function selecionarFoto(gabinete, arquivo){
-
   if(!arquivo || state.finalized)return;
 
   if(!arquivo.type.startsWith("image/")){
@@ -672,20 +677,28 @@ async function selecionarFoto(gabinete, arquivo){
   }
 
   try{
-    const blob = await prepararFoto(arquivo);
+    const blob=await prepararFoto(arquivo);
 
-    const resposta = await fetch(`/api/vereador-foto/${encodeURIComponent(gabinete)}`, {
-      method:"POST",
-      headers:{"Content-Type":"image/jpeg"},
-      body:blob
-    });
+    const resposta=await fetch(
+      `/api/vereador-foto/${encodeURIComponent(gabinete)}`,
+      {
+        method:"POST",
+        headers:{"Content-Type":"image/jpeg"},
+        body:blob
+      }
+    );
 
-    const data = await resposta.json();
+    const data=await resposta.json();
 
-    if(!resposta.ok) throw new Error(data.error || "Não foi possível salvar a foto.");
+    if(!resposta.ok){
+      throw new Error(
+        data.error || "Não foi possível salvar a foto."
+      );
+    }
 
     state=data;
     render();
+
   }catch(e){
     alert(e.message);
     render();
@@ -701,60 +714,86 @@ function prepararFoto(arquivo){
 
       img.onload=()=>{
         const max=700;
-        const escala=Math.min(1,max/Math.max(img.width,img.height));
+        const escala=
+          Math.min(
+            1,
+            max/Math.max(img.width,img.height)
+          );
+
         const canvas=document.createElement("canvas");
-        canvas.width=Math.max(1,Math.round(img.width*escala));
-        canvas.height=Math.max(1,Math.round(img.height*escala));
+
+        canvas.width=
+          Math.max(1,Math.round(img.width*escala));
+
+        canvas.height=
+          Math.max(1,Math.round(img.height*escala));
 
         const ctx=canvas.getContext("2d");
-        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
 
         canvas.toBlob(blob=>{
-          if(blob) resolve(blob);
-          else reject(new Error("Não foi possível preparar a imagem."));
+          if(blob)resolve(blob);
+          else reject(
+            new Error("Não foi possível preparar a imagem.")
+          );
         },"image/jpeg",.88);
       };
 
-      img.onerror=()=>reject(new Error("Não foi possível ler a imagem."));
+      img.onerror=()=>{
+        reject(new Error("Não foi possível ler a imagem."));
+      };
+
       img.src=reader.result;
     };
 
-    reader.onerror=()=>reject(new Error("Não foi possível ler o arquivo."));
+    reader.onerror=()=>{
+      reject(new Error("Não foi possível ler o arquivo."));
+    };
+
     reader.readAsDataURL(arquivo);
   });
 }
 
 async function removerFoto(gabinete){
-
   if(state.finalized)return;
+
   if(!confirm("Remover a foto deste vereador?"))return;
 
   try{
-    const data=await api(`/api/vereador-foto/${encodeURIComponent(gabinete)}`,{
-      method:"DELETE"
-    });
+    const data=await api(
+      `/api/vereador-foto/${encodeURIComponent(gabinete)}`,
+      {method:"DELETE"}
+    );
+
     state=data;
     render();
+
   }catch(e){
     alert(e.message);
   }
 }
 
 function removerVereador(gabinete){
-
   if(state.finalized)return;
 
   const v=
-    state.vereadores.find(x=>x.gabinete===gabinete);
+    state.vereadores.find(
+      x=>x.gabinete===gabinete
+    );
 
   if(!v)return;
 
   if(state.votos?.[gabinete]!==undefined){
-
     return alert(
       `${v.nome} já possui voto registrado e não pode ser removido desta votação.`
     );
-
   }
 
   const chapa=
@@ -763,11 +802,9 @@ function removerVereador(gabinete){
     );
 
   if(chapa){
-
     return alert(
       `${v.nome} está na composição da ${chapa.nome}. Remova-o da chapa antes de excluir o vereador.`
     );
-
   }
 
   if(!confirm(
@@ -775,82 +812,60 @@ function removerVereador(gabinete){
   ))return;
 
   state.vereadores=
-    state.vereadores.filter(x=>x.gabinete!==gabinete);
+    state.vereadores.filter(
+      x=>x.gabinete!==gabinete
+    );
 
   render();
 }
 
-
 async function salvarVereadores(){
-
   if(state.finalized){
-
     return alert(
       "A votação já foi finalizada. Inicie uma nova votação para alterar os vereadores."
     );
-
   }
 
   const vereadores=
     state.vereadores.map(v=>({
-
       gabinete:v.gabinete,
-
       nome:
         document
-        .getElementById(`vereador-${v.gabinete}`)
-        ?.value
-        .trim()||"",
-
+          .getElementById(`vereador-${v.gabinete}`)
+          ?.value
+          .trim()||"",
       foto:v.foto || "/vereadores/sem-foto.png"
-
     }));
 
   if(vereadores.length<1){
-
-    return alert(
-      "Cadastre pelo menos 1 vereador."
-    );
-
+    return alert("Cadastre pelo menos 1 vereador.");
   }
 
   if(vereadores.some(v=>!v.nome)){
-
-    return alert(
-      "Informe o nome de todos os vereadores."
-    );
-
+    return alert("Informe o nome de todos os vereadores.");
   }
 
   try{
-
     state=await api("/api/vereadores",{
-
       method:"POST",
-
       headers:{
         "Content-Type":"application/json"
       },
-
-      body:JSON.stringify({
-        vereadores
-      })
-
+      body:JSON.stringify({vereadores})
     });
 
-    alert(
-      "Lista de vereadores atualizada."
-    );
-
+    alert("Lista de vereadores atualizada.");
     render();
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
+
+/* =========================================
+   CHAPAS + PESQUISA DE VEREADORES
+   ========================================= */
 
 function renderChapasConfig(){
 
@@ -866,97 +881,379 @@ function renderChapasConfig(){
   chapasConfig.innerHTML=
     state.chapas.map((c,idx)=>`
 
-    <article class="chapa-config ${c.ativa?"active":"inactive"}">
+      <article class="chapa-config ${c.ativa?"active":"inactive"}">
 
-      <div class="chapa-head">
+        <div class="chapa-head">
 
-        <div>
+          <div>
+            <span class="chapa-number">
+              CHAPA ${idx+1}
+            </span>
 
-          <span class="chapa-number">
-            CHAPA ${idx+1}
-          </span>
+            <h3>${esc(c.nome)}</h3>
+          </div>
 
-          <h3>${esc(c.nome)}</h3>
+          <label class="switch">
+            <input
+              type="checkbox"
+              id="ativa-${c.id}"
+              ${c.ativa?"checked":""}
+              onchange="alternarChapa('${esc(c.id)}',this.checked)"
+            >
+            <span></span>
+          </label>
 
         </div>
 
-        <label class="switch">
+        <label>
+          Nome da chapa
 
           <input
-            type="checkbox"
-            id="ativa-${c.id}"
-            ${c.ativa?"checked":""}
-            onchange="alternarChapa('${c.id}',this.checked)"
+            id="nome-${esc(c.id)}"
+            value="${esc(c.nome)}"
+            placeholder="Nome da chapa"
           >
-
-          <span></span>
-
         </label>
 
-      </div>
+        <div class="cargo-grid">
 
-      <label>
-        Nome da chapa
-        <input
-          id="nome-${c.id}"
-          value="${esc(c.nome)}"
-          placeholder="Nome da chapa"
-        >
-      </label>
+          ${CARGOS.map(([key,label])=>{
 
-      <div class="cargo-grid">
+            const selected=
+              String(c.cargos?.[key]||"");
 
-        ${CARGOS.map(([key,label])=>{
+            const vereadorSelecionado=
+              state.vereadores.find(
+                v=>v.gabinete===selected
+              );
 
-          const selected=
-            String(c.cargos?.[key]||"");
+            return `
 
-          return `
-            <label>
-              ${label}
+              <label class="vereador-selector">
 
-              <select
-                id="${key}-${c.id}"
-                ${c.ativa?"":"disabled"}
-              >
+                <span>${label}</span>
 
-                <option value="">
-                  Selecione o vereador
-                </option>
+                <div class="vereador-search-box">
 
-                ${state.vereadores.map(v=>`
-
-                  <option
-                    value="${v.gabinete}"
-                    ${selected===v.gabinete?"selected":""}
+                  <input
+                    type="text"
+                    class="vereador-search"
+                    id="search-${esc(key)}-${esc(c.id)}"
+                    placeholder="🔎 Pesquisar vereador..."
+                    value="${esc(vereadorSelecionado?.nome || "")}"
+                    autocomplete="off"
+                    ${c.ativa?"":"disabled"}
+                    oninput="filtrarVereadores('${esc(key)}','${esc(c.id)}')"
+                    onclick="abrirListaVereadores('${esc(key)}','${esc(c.id)}')"
                   >
-                    ${esc(v.nome)}
-                  </option>
 
-                `).join("")}
+                  <input
+                    type="hidden"
+                    id="${esc(key)}-${esc(c.id)}"
+                    value="${esc(selected)}"
+                  >
 
-              </select>
+                  <div
+                    class="vereador-dropdown"
+                    id="dropdown-${esc(key)}-${esc(c.id)}"
+                  ></div>
 
-            </label>
-          `;
+                </div>
 
-        }).join("")}
+              </label>
 
-      </div>
+            `;
 
-    </article>
+          }).join("")}
 
-  `).join("");
+        </div>
+
+      </article>
+
+    `).join("");
+
+  state.chapas.forEach(c=>{
+    CARGOS.forEach(([key])=>{
+      if(c.ativa){
+        atualizarListaVereadores(key,c.id);
+      }
+    });
+  });
 }
+
+
+function vereadoresDisponiveis(chapaId,cargoKey){
+
+  const selecionados=new Set();
+
+  state.chapas.forEach(chapa=>{
+
+    Object.entries(chapa.cargos||{}).forEach(
+      ([cargo,gabinete])=>{
+
+        if(!gabinete)return;
+
+        if(
+          chapa.id!==chapaId ||
+          cargo!==cargoKey
+        ){
+          selecionados.add(String(gabinete));
+        }
+
+      }
+    );
+
+  });
+
+  const atual=
+    document.getElementById(
+      `${cargoKey}-${chapaId}`
+    )?.value;
+
+  return state.vereadores.filter(v=>{
+
+    if(String(v.gabinete)===String(atual)){
+      return true;
+    }
+
+    return !selecionados.has(
+      String(v.gabinete)
+    );
+
+  });
+}
+
+
+function abrirListaVereadores(cargoKey,chapaId){
+
+  const chapa=
+    state.chapas.find(
+      c=>c.id===chapaId
+    );
+
+  if(!chapa || !chapa.ativa)return;
+
+  const input=
+    document.getElementById(
+      `search-${cargoKey}-${chapaId}`
+    );
+
+  if(!input)return;
+
+  // Depois que um vereador foi escolhido, o campo mostra apenas o nome.
+  // A lista só volta a aparecer quando o usuário apagar o nome e pesquisar.
+  if(input.value.trim())return;
+
+  atualizarListaVereadores(
+    cargoKey,
+    chapaId
+  );
+
+  const dropdown=
+    document.getElementById(
+      `dropdown-${cargoKey}-${chapaId}`
+    );
+
+  if(dropdown){
+    dropdown.classList.add("show");
+  }
+}
+
+
+function filtrarVereadores(cargoKey,chapaId){
+
+  atualizarListaVereadores(
+    cargoKey,
+    chapaId
+  );
+
+  const dropdown=
+    document.getElementById(
+      `dropdown-${cargoKey}-${chapaId}`
+    );
+
+  if(dropdown){
+    dropdown.classList.add("show");
+  }
+}
+
+
+function atualizarListaVereadores(cargoKey,chapaId){
+
+  const input=
+    document.getElementById(
+      `search-${cargoKey}-${chapaId}`
+    );
+
+  const dropdown=
+    document.getElementById(
+      `dropdown-${cargoKey}-${chapaId}`
+    );
+
+  if(!input || !dropdown)return;
+
+  const termo=
+    normalizarBusca(input.value);
+
+  const vereadores=
+    vereadoresDisponiveis(
+      chapaId,
+      cargoKey
+    ).filter(v=>
+      normalizarBusca(v.nome).includes(termo)
+    );
+
+  dropdown.innerHTML=
+    vereadores.length
+      ? vereadores.map(v=>`
+
+          <button
+            type="button"
+            class="vereador-option"
+            onclick="selecionarVereador('${esc(cargoKey)}','${esc(chapaId)}','${esc(v.gabinete)}')"
+          >
+            <span>${esc(v.nome)}</span>
+          </button>
+
+        `).join("")
+
+      : `
+          <div class="vereador-empty">
+            Nenhum vereador disponível.
+          </div>
+        `;
+
+}
+
+
+function selecionarVereador(
+  cargoKey,
+  chapaId,
+  gabinete
+){
+
+  const vereador=
+    state.vereadores.find(
+      v=>v.gabinete===gabinete
+    );
+
+  if(!vereador)return;
+
+  const hidden=
+    document.getElementById(
+      `${cargoKey}-${chapaId}`
+    );
+
+  const input=
+    document.getElementById(
+      `search-${cargoKey}-${chapaId}`
+    );
+
+  const dropdown=
+    document.getElementById(
+      `dropdown-${cargoKey}-${chapaId}`
+    );
+
+  if(hidden){
+    hidden.value=vereador.gabinete;
+  }
+
+  if(input){
+    input.value=vereador.nome;
+  }
+
+  // Atualiza o estado imediatamente. Assim, o vereador escolhido
+  // deixa de aparecer nas demais chapas/cargos sem precisar salvar.
+  const chapa=state.chapas.find(c=>c.id===chapaId);
+  if(chapa){
+    if(!chapa.cargos) chapa.cargos={};
+    chapa.cargos[cargoKey]=vereador.gabinete;
+  }
+
+  // Fecha imediatamente a lista do campo selecionado.
+  // Também fecha qualquer outra lista que esteja aberta.
+  document
+    .querySelectorAll(".vereador-dropdown.show")
+    .forEach(lista=>lista.classList.remove("show"));
+
+  if(dropdown){
+    dropdown.classList.remove("show");
+    dropdown.style.display="none";
+    requestAnimationFrame(()=>{
+      dropdown.style.display="";
+    });
+  }
+
+  atualizarTodosSeletores();
+}
+
+
+function atualizarTodosSeletores(){
+
+  state.chapas.forEach(chapa=>{
+
+    CARGOS.forEach(([key])=>{
+
+      const hidden=
+        document.getElementById(
+          `${key}-${chapa.id}`
+        );
+
+      const input=
+        document.getElementById(
+          `search-${key}-${chapa.id}`
+        );
+
+      if(!hidden || !input)return;
+
+      const gabinete=
+        hidden.value;
+
+      const vereador=
+        state.vereadores.find(
+          v=>v.gabinete===gabinete
+        );
+
+      input.value=
+        vereador?.nome || "";
+
+      atualizarListaVereadores(
+        key,
+        chapa.id
+      );
+
+    });
+
+  });
+}
+
+
+document.addEventListener("click",e=>{
+
+  if(!e.target.closest(".vereador-search-box")){
+
+    document
+      .querySelectorAll(".vereador-dropdown.show")
+      .forEach(dropdown=>{
+        dropdown.classList.remove("show");
+      });
+
+  }
+
+});
 
 
 function alternarChapa(id,checked){
 
   const c=
-    state.chapas.find(x=>x.id===id);
+    state.chapas.find(
+      x=>x.id===id
+    );
 
   const atuais=
-    state.chapas.filter(x=>x.ativa).length;
+    state.chapas.filter(
+      x=>x.ativa
+    ).length;
 
   if(!checked&&atuais<=1){
 
@@ -985,23 +1282,23 @@ function coletarChapas(){
 
     nome:
       document
-      .getElementById(`nome-${c.id}`)
-      .value
-      .trim()||
+        .getElementById(`nome-${c.id}`)
+        .value
+        .trim()||
       `Chapa ${c.id.replace("chapa","")}`,
 
     ativa:
       document
-      .getElementById(`ativa-${c.id}`)
-      .checked,
+        .getElementById(`ativa-${c.id}`)
+        .checked,
 
     cargos:
       Object.fromEntries(
         CARGOS.map(([key])=>[
           key,
           document
-          .getElementById(`${key}-${c.id}`)
-          .value
+            .getElementById(`${key}-${c.id}`)
+            .value
         ])
       )
 
@@ -1012,11 +1309,9 @@ function coletarChapas(){
 async function salvarConfig(){
 
   if(state.finalized){
-
     return alert(
       "A votação já foi finalizada. Inicie uma nova votação para alterar a configuração."
     );
-
   }
 
   const chapas=
@@ -1026,39 +1321,57 @@ async function salvarConfig(){
     chapas.filter(c=>c.ativa);
 
   if(ativas.length<1||ativas.length>4){
-
     return alert(
       "Cadastre de 1 a 4 chapas ativas."
     );
-
   }
+
+  const usadosGlobal=new Map();
 
   for(const chapa of ativas){
 
     const faltantes=
       CARGOS
-      .filter(([key])=>!chapa.cargos[key])
-      .map(([,label])=>label);
+        .filter(([key])=>!chapa.cargos[key])
+        .map(([,label])=>label);
 
     if(faltantes.length){
-
       return alert(
         `Preencha todos os cargos da ${chapa.nome}: ${faltantes.join(", ")}.`
       );
-
     }
 
     const membros=
       CARGOS.map(([key])=>chapa.cargos[key]);
 
     if(new Set(membros).size!==membros.length){
-
       return alert(
         `Um vereador não pode ocupar dois cargos na mesma ${chapa.nome}.`
       );
-
     }
 
+    for(const gabinete of membros){
+
+      if(usadosGlobal.has(gabinete)){
+
+        const outra=
+          usadosGlobal.get(gabinete);
+
+        const vereador=
+          state.vereadores.find(
+            v=>v.gabinete===gabinete
+          );
+
+        return alert(
+          `${vereador?.nome || "Este vereador"} já está na ${outra}. Um vereador só pode participar de uma chapa.`
+        );
+      }
+
+      usadosGlobal.set(
+        gabinete,
+        chapa.nome
+      );
+    }
   }
 
   try{
@@ -1072,36 +1385,30 @@ async function salvarConfig(){
       },
 
       body:JSON.stringify({
-
         titulo:titulo.value,
         subtitulo:subtitulo.value,
         chapas
-
       })
 
     });
 
-    alert(
-      "Configuração salva."
-    );
-
+    alert("Configuração salva.");
     render();
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
 
+/* =========================================
+   VOTAÇÃO
+   ========================================= */
+
 function renderCards(){
 
-  const votos=
-    state.votos||{};
-
-  const total=
-    Object.keys(votos).length;
+  const votos=state.votos||{};
+  const total=Object.keys(votos).length;
 
   const presentes=
     state.vereadores.filter(
@@ -1110,41 +1417,40 @@ function renderCards(){
 
   const cards=
     state.chapas
-    .filter(c=>c.ativa)
-    .map(c=>{
+      .filter(c=>c.ativa)
+      .map(c=>{
 
-      const n=
-        Object.values(votos)
-        .filter(v=>v===c.id)
-        .length;
+        const n=
+          Object.values(votos)
+            .filter(v=>v===c.id)
+            .length;
 
-      return `
-        <div class="card metric-card">
+        return `
+          <div class="card metric-card">
 
-          <div class="metric-label">
-            ${esc(c.nome)}
+            <div class="metric-label">
+              ${esc(c.nome)}
+            </div>
+
+            <div class="metric">
+              ${n}
+            </div>
+
+            <div class="metric-sub">
+              ${total?((n/total)*100).toFixed(1):"0.0"}% dos votos registrados
+            </div>
+
           </div>
+        `;
 
-          <div class="metric">
-            ${n}
-          </div>
-
-          <div class="metric-sub">
-            ${total?((n/total)*100).toFixed(1):"0.0"}% dos votos registrados
-          </div>
-
-        </div>
-      `;
-
-    });
+      });
 
   const abst=
     Object.values(votos)
-    .filter(v=>v==="abstencao")
-    .length;
+      .filter(v=>v==="abstencao")
+      .length;
 
   cards.push(`
-
     <div class="card metric-card abst-card">
 
       <div class="metric-label">
@@ -1160,11 +1466,9 @@ function renderCards(){
       </div>
 
     </div>
-
   `);
 
   cards.push(`
-
     <div class="card metric-card">
 
       <div class="metric-label">
@@ -1182,30 +1486,22 @@ function renderCards(){
       </div>
 
     </div>
-
   `);
 
-  resultCards.innerHTML=
-    cards.join("");
+  resultCards.innerHTML=cards.join("");
 }
 
 
 function renderLista(){
 
-  const votos=
-    state.votos||{};
-
-  const ausentes=
-    state.ausentes||{};
-
-  const ativos=
-    state.chapas.filter(c=>c.ativa);
+  const votos=state.votos||{};
+  const ausentes=state.ausentes||{};
+  const ativos=state.chapas.filter(c=>c.ativa);
 
   lista.innerHTML=
     state.vereadores.map((v,i)=>{
 
-      const voto=
-        votos[v.gabinete];
+      const voto=votos[v.gabinete];
 
       const isAusente=
         Boolean(ausentes[v.gabinete]);
@@ -1230,9 +1526,7 @@ function renderLista(){
         status=
           '<span class="badge badge-vote">Votou</span>';
 
-        texto=
-          esc(chapa.nome);
-
+        texto=esc(chapa.nome);
       }
 
       if(voto==="abstencao"){
@@ -1241,76 +1535,61 @@ function renderLista(){
           '<span class="badge badge-abst">Absteve-se</span>';
 
         texto="Abstenção";
-
       }
 
       const buttons=
         isAusente
-        ?""
-        :ativos.map(c=>`
-
-          <button
-            class="btn vote-btn"
-            onclick="votar('${v.gabinete}','${c.id}')"
-          >
-            ${esc(c.nome)}
-          </button>
-
-        `).join("");
+          ?""
+          :ativos.map(c=>`
+            <button
+              class="btn vote-btn"
+              onclick="votar('${esc(v.gabinete)}','${esc(c.id)}')"
+            >
+              ${esc(c.nome)}
+            </button>
+          `).join("");
 
       const abst=
         isAusente
-        ?""
-        :`
-
-          <button
-            class="btn btn-abst"
-            onclick="votar('${v.gabinete}','abstencao')"
-          >
-            Abstenção
-          </button>
-
-        `;
+          ?""
+          :`
+            <button
+              class="btn btn-abst"
+              onclick="votar('${esc(v.gabinete)}','abstencao')"
+            >
+              Abstenção
+            </button>
+          `;
 
       const clear=
         voto
-        ?`
-
-          <button
-            class="btn btn-clear"
-            onclick="limpar('${v.gabinete}')"
-          >
-            Limpar
-          </button>
-
-        `
-        :"";
+          ?`
+            <button
+              class="btn btn-clear"
+              onclick="limpar('${esc(v.gabinete)}')"
+            >
+              Limpar
+            </button>
+          `
+          :"";
 
       const absence=`
-
         <button
           class="btn ${isAusente?"btn-success":"btn-secondary"}"
-          onclick="marcarAusente('${v.gabinete}',${!isAusente})"
+          onclick="marcarAusente('${esc(v.gabinete)}',${!isAusente})"
         >
           ${isAusente
             ?"Marcar presente"
             :"Marcar ausente"}
         </button>
-
       `;
 
       return `
-
         <tr>
-
           <td>${i+1}</td>
-
           <td>${esc(v.nome)}</td>
-
           <td>${status}</td>
-
           <td>${texto}</td>
-
           <td>
             <div class="actions">
               ${buttons}
@@ -1319,9 +1598,7 @@ function renderLista(){
               ${absence}
             </div>
           </td>
-
         </tr>
-
       `;
 
     }).join("");
@@ -1369,22 +1646,20 @@ function renderFinalizacao(){
 
 function atualizarBloqueios(){
 
-  const locked=
-    state.finalized;
+  const locked=state.finalized;
 
   document
-  .querySelectorAll("input,select,button")
-  .forEach(el=>{
+    .querySelectorAll("input,select,button")
+    .forEach(el=>{
 
-    if(
-      el.id==="pdfLink"||
-      el.closest("#finalPanel")||
-      el.closest(".right-menu")
-    )return;
+      if(
+        el.id==="pdfLink"||
+        el.closest("#finalPanel")||
+        el.closest(".right-menu")
+      )return;
 
-    el.disabled=locked;
-
-  });
+      el.disabled=locked;
+    });
 
   resetBtn.disabled=
     locked&&!state.pdfSaved;
@@ -1400,7 +1675,6 @@ function atualizarBloqueios(){
       state.pdfSaved
         ?"🔒 Votação encerrada. O resultado em PDF foi confirmado como salvo."
         :"🔒 Votação encerrada. <strong>Baixe o PDF e confirme o salvamento.</strong> Enquanto isso, não será possível alterar votos, configuração ou iniciar outra votação.";
-
   }
 }
 
@@ -1410,11 +1684,9 @@ async function marcarAusente(gabinete,ausente){
   if(state.finalized)return;
 
   if(state.ausentes?.[gabinete]){
-
     return alert(
       "Marque o vereador como presente antes de registrar o voto."
     );
-
   }
 
   const v=
@@ -1429,7 +1701,6 @@ async function marcarAusente(gabinete,ausente){
     if(!confirm(
       `${v.nome} já possui voto. Ao marcar como presente, o voto será mantido. Continuar?`
     ))return;
-
   }
 
   try{
@@ -1446,15 +1717,12 @@ async function marcarAusente(gabinete,ausente){
         gabinete,
         ausente
       })
-
     });
 
     render();
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
@@ -1468,17 +1736,18 @@ async function votar(gabinete,voto){
       x=>x.gabinete===gabinete
     );
 
-  const atual=
-    state.votos[gabinete];
+  const atual=state.votos[gabinete];
 
   const label=
     voto==="abstencao"
       ?"Abstenção"
-      :state.chapas.find(c=>c.id===voto)?.nome;
+      :state.chapas.find(
+          c=>c.id===voto
+        )?.nome;
 
   if(
-    atual&&
-    atual!==voto&&
+    atual &&
+    atual!==voto &&
     !confirm(
       `Alterar o voto de ${v.nome} para ${label}?`
     )
@@ -1498,15 +1767,12 @@ async function votar(gabinete,voto){
         gabinete,
         voto
       })
-
     });
 
     render();
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
@@ -1536,15 +1802,12 @@ async function limpar(gabinete){
         gabinete,
         voto:null
       })
-
     });
 
     render();
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
@@ -1588,7 +1851,6 @@ async function finalizarVotacao(){
     });
 
     fecharModal();
-
     render();
 
     setTimeout(
@@ -1597,9 +1859,7 @@ async function finalizarVotacao(){
     );
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
@@ -1619,9 +1879,7 @@ async function confirmarPdf(){
     );
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
@@ -1650,9 +1908,7 @@ async function resetar(){
     render();
 
   }catch(e){
-
     alert(e.message);
-
   }
 }
 
@@ -1662,7 +1918,7 @@ window.addEventListener(
   e=>{
 
     if(
-      state?.finalized&&
+      state?.finalized &&
       !state?.pdfSaved
     ){
 
@@ -1685,13 +1941,11 @@ const ws=
 
 ws.onmessage=e=>{
 
-  const m=
-    JSON.parse(e.data);
+  const m=JSON.parse(e.data);
 
   if(m.type==="state"){
 
     state=m.data;
-
     render();
 
   }
