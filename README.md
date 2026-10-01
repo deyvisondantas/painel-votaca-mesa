@@ -14,6 +14,11 @@ O sistema possui duas interfaces:
 
 As informações são sincronizadas em **tempo real** entre as interfaces e os dados da votação são persistidos no servidor.
 
+<img width="1865" height="959" alt="image" src="https://github.com/user-attachments/assets/bdfb8ae7-4f3e-46e4-9eab-366efd0003d1" />
+
+<img width="1732" height="590" alt="image" src="https://github.com/user-attachments/assets/13821421-6cd5-4aa6-a9ea-3bc79646fed4" />
+
+
 ---
 
 ## ✨ Funcionalidades
