@@ -2092,3 +2092,47 @@ main{
     box-shadow: 0 12px 30px rgba(0,0,0,.35);
   }
 }
+
+/* =========================================================
+   RESUMO DE PRESENÇA E ABSTENÇÕES
+   ========================================================= */
+
+.attendance-summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(10px,1vw,24px);
+  margin-top:clamp(10px,1vh,20px);
+}
+
+.attendance-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:clamp(10px,.8vw,20px) clamp(14px,1vw,26px);
+  border:1px solid var(--border);
+  border-radius:clamp(8px,.7vw,16px);
+  background:rgba(255,255,255,.045);
+}
+
+.attendance-item span{
+  color:var(--muted);
+  font-size:clamp(11px,.7vw,24px);
+  font-weight:700;
+}
+
+.attendance-item strong{
+  font-size:clamp(20px,1.4vw,48px);
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.abstention-summary strong{
+  color:var(--yellow);
+}
+
+@media (max-width:700px){
+  .attendance-summary{
+    grid-template-columns:1fr;
+  }
+}

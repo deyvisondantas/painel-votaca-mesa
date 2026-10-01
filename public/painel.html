@@ -39,7 +39,19 @@
         <section class="progress-card">
           <div class="progress-title">
             <span>Votos registrados</span>
-            <strong id="registered">0 / 21</strong>
+            <strong id="registered">0 / 0</strong>
+          </div>
+
+          <div class="attendance-summary">
+            <div class="attendance-item">
+              <span>Vereadores presentes</span>
+              <strong id="presentCount">0 / 0</strong>
+            </div>
+
+            <div class="attendance-item abstention-summary">
+              <span>Abstenções</span>
+              <strong id="abstentionCount">0</strong>
+            </div>
           </div>
 
           <div id="bar" class="bar"></div>
@@ -396,6 +408,20 @@ function render(){
   registered.textContent =
     `${total} / ${presentes}`;
 
+  const totalVereadores =
+    state.vereadores.length;
+
+  const presentCount =
+    document.getElementById("presentCount");
+
+  const abstentionCount =
+    document.getElementById("abstentionCount");
+
+  if (presentCount) {
+    presentCount.textContent =
+      `${presentes} / ${totalVereadores}`;
+  }
+
 
   /* =======================================================
      CONTAGEM DAS CHAPAS
@@ -426,6 +452,11 @@ function render(){
     Object.values(votos)
       .filter(v => v === "abstencao")
       .length;
+
+  if (abstentionCount) {
+    abstentionCount.textContent =
+      votosAbstencao;
+  }
 
 
   /* =======================================================

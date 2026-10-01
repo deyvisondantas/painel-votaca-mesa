@@ -1,5 +1,10 @@
 # 🗳️ Painel de Votação — Câmara Municipal de Parnamirim
 
+### Indicadores no painel público
+- Exibe o número de vereadores presentes em relação ao total cadastrado.
+- Exibe separadamente o número de abstenções registradas.
+- Os quantitativos de presentes e de abstenções não precisam ser iguais ao total de vereadores.
+
 Sistema web para **gerenciamento, realização, apuração e exibição de votações** da Câmara Municipal de Parnamirim — RN.
 
 O sistema possui duas interfaces:
